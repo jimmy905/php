@@ -1,12 +1,12 @@
 {
-    "name": "wjcms/composer-test",
+    "name": "wuwei/composer-test",
     "description": "composer-test description",
     "type": "project",
     "license": "MIT",
     "authors": [
         {
-            "name": "wjcms",
-            "email": "wjcms@qq.com"
+            "name": "wuwei",
+            "email": "136180896@qq.com"
         }
     ],
     "minimum-stability": "stable",
