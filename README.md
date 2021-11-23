@@ -1,1 +1,2 @@
-# php
+# composer-test
+composer-test description

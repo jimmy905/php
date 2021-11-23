@@ -1,0 +1,21 @@
+{
+    "name": "wjcms/composer-test",
+    "description": "composer-test description",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "wjcms",
+            "email": "wjcms@qq.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "autoload":{
+        "files":[
+            "src/helper.php"
+        ],
+        "psr-4":{
+            "wjcms\\composer\\":"src"
+        }
+    }
+}
