@@ -15,7 +15,7 @@
             "src/helper.php"
         ],
         "psr-4":{
-            "wjcms\\composer\\":"src"
+            "yuanhou\\composer\\":"src"
         }
     }
 }
