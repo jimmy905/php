@@ -1,6 +1,5 @@
 <?php
-function app()
+function appwuwei()
 {
 	echo 'helper.php app ...<br/>';
 }
-
