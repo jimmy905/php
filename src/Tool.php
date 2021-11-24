@@ -8,4 +8,9 @@ class Tool
     {
         echo 'this is tool';
     }
+
+    static function test()
+    {
+        echo 'this is tool test';
+    }
 }
