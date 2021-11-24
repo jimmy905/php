@@ -1,5 +1,6 @@
 <?php
-namespace wjcms\composer;
+
+namespace yuanhou\composer;
 
 class Database
 {
