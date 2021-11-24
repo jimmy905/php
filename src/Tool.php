@@ -14,7 +14,7 @@ class Tool
 
     static function test()
     {
-        echo 'this is tool test';
+        echo 'this is tool test 1  111';
     }
 
     // 小数点后保留两位
