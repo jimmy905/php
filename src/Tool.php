@@ -204,8 +204,11 @@ class Tool
         return $qunianyuechu;
     }
 
-    // 获取今天开始日期
-    static function jianniankaishiriqi()
+
+
+
+    // 获取今年开始日期
+    static function jinniankaishiriqi()
     {
         $yearFirstDay  = date('Y-m-d', mktime(0, 0, 0, 1, 1, date("Y")));
 
