@@ -197,7 +197,7 @@ class Tool
     }
 
     // 获取去年月初
-    static function qunianyuechu()
+    static function qunianbenyuechu()
     {
         $qunian = date("Y-m-d H:i:s", strtotime("-1 year"));
         $qunianyuechu = self::yuechu($qunian);
