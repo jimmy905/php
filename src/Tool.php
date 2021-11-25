@@ -176,6 +176,51 @@ class Tool
         return $days;
     }
 
+    // 获取去年今天
+    static function qunianjintian()
+    {
+
+        $qunian = date("Y-m-d H:i:s", strtotime("-1 year"));
+
+
+        return $qunian;
+        // $qunianzuotian = zuotian($qunian);
+    }
+
+    // 获取去年昨天
+    static function qunianzuotian()
+    {
+
+        $qunian = date("Y-m-d H:i:s", strtotime("-1 year"));
+        $qunianzuotian = self::zuotian($qunian);
+        return $qunianzuotian;
+    }
+
+    // 获取去年月初
+    static function qunianyuechu()
+    {
+        $qunian = date("Y-m-d H:i:s", strtotime("-1 year"));
+        $qunianyuechu = self::yuechu($qunian);
+        return $qunianyuechu;
+    }
+
+
+
+    // 多位数组排序
+    static function duowei_sort($arr, $key, $type = 'asc')
+    {
+
+        if ($type == 'asc') {
+            $sort = SORT_ASC;
+        } else {
+            $sort = SORT_DESC;
+        }
+
+        $last_names = array_column($arr, $key);
+        array_multisort($last_names, $sort, $arr);
+
+        return $arr;
+    }
 
 
     // 获取今天是今年的第几天
