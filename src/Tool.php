@@ -167,6 +167,16 @@ class Tool
     }
 
 
+    // 获取上月昨天
+    static  function shangyuezuotian()
+    {
+
+        $shangyuezuotian = date("Y-m-d", strtotime("last month -1 day"));
+        return  $shangyuezuotian;
+    }
+
+
+
     //获取上月初
     static   function shangyuechu()
     {
