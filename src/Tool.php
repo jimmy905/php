@@ -234,14 +234,9 @@ class Tool
         return $arr;
     }
 
-
-
+    // 获取openid
     static function getopenid($appid, $secret, $code)
     {
-
-        // $appid = 'wx34ad3e79f6c341d6';
-        //微信小程序appid
-        // $secret = '1115a6dde2654321bf62bc425578c88f';
 
         //接收用户性别
         //下面url是请求微信端地址获取用户唯一标识的，对应的appid和secret改成自己的
@@ -269,13 +264,9 @@ class Tool
         $shuzu = json_decode($output, true);
 
         // var_dump($shuzu);
-        $key = $shuzu['session_key'];
 
-        $openid = $shuzu['openid'];
-
-        return $openid;
+        return $shuzu;
     }
-
 
 
 
