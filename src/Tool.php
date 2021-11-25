@@ -37,6 +37,15 @@ class Tool
     }
 
 
+    // 获取今天日期
+    static function jintian()
+    {
+        $today = date("Y-m-d");
+        return $today;
+    }
+
+
+
     // 成功的返回
     static function fan_ok($arr)
     {
