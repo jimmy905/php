@@ -292,6 +292,20 @@ class Tool
 
 
 
+    // 过滤表情
+    static function guolv_biaoqing($str)
+    {
+
+        $str = preg_replace_callback(
+            '/./u',
+            function (array $match) {
+                return strlen($match[0]) >= 4 ? '' : $match[0];
+            },
+            $str
+        );
+        return $str;
+    }
+
 
     // 获取今天是今年的第几天
     static  function year_dijitian()
