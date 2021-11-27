@@ -5,6 +5,10 @@ namespace yuanhou\composer;
 use think\facade\Db;
 use think\Request;
 
+
+
+
+
 class Tool
 {
     public function index()
@@ -222,9 +226,6 @@ class Tool
         $qunianyuechu = self::yuechu($qunian);
         return $qunianyuechu;
     }
-
-
-
 
     // 获取今年开始日期
     static function jinniankaishiriqi()
