@@ -6,9 +6,6 @@ use think\facade\Db;
 use think\Request;
 
 
-
-
-
 class Tool
 {
     public function index()
