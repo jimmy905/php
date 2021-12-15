@@ -47,6 +47,10 @@ class Tool
 
 
 
+
+
+
+
     // 成功的返回
     static function fan_ok($arr)
     {
@@ -368,5 +372,29 @@ class Tool
             $tian = $sum;
         }
         return $tian;
+    }
+
+
+
+
+    /** 
+     * 计算两个经纬度坐标 之间的距离,返回的是千米或米
+     * params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2；  
+     * miles true时返回千米，false时返回米
+     */
+    static function GetJuli($lat1, $lng1, $lat2, $lng2, $miles = true)
+    {
+        $pi80 = M_PI / 180;
+        $lat1 *= $pi80;
+        $lng1 *= $pi80;
+        $lat2 *= $pi80;
+        $lng2 *= $pi80;
+        $r = 6372.797; // mean radius of Earth in km
+        $dlat = $lat2 - $lat1;
+        $dlng = $lng2 - $lng1;
+        $a = sin($dlat / 2) * sin($dlat / 2) + cos($lat1) * cos($lat2) * sin($dlng / 2) * sin($dlng / 2);
+        $c = 2 * atan2(sqrt($a), sqrt(1 - $a));
+        $km = $r * $c;
+        return $miles ? ($km * 0.621371192 * 1.609344) : ($km * 0.621371192 * 1.609344 * 1000);
     }
 }

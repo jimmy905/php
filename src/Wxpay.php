@@ -6,10 +6,6 @@ use think\facade\Db;
 use think\Request;
 
 
-
-
-
-
 class Wxpay
 {
     //接口API URL前缀
