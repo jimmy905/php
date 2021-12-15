@@ -382,7 +382,7 @@ class Tool
      * params ：lat1 纬度1； lng1 经度1； lat2 纬度2； lng2 经度2；  
      * miles true时返回千米，false时返回米
      */
-    static function GetJuli($lat1, $lng1, $lat2, $lng2, $miles = true)
+    static function getJuli($lat1, $lng1, $lat2, $lng2, $miles = true)
     {
         $pi80 = M_PI / 180;
         $lat1 *= $pi80;
