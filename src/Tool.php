@@ -397,4 +397,15 @@ class Tool
         $km = $r * $c;
         return $miles ? ($km * 0.621371192 * 1.609344) : ($km * 0.621371192 * 1.609344 * 1000);
     }
+
+    //  查询字符串中是否包含某个字符串
+    static function isBaohan($zifuchuan, $zifu)
+    {
+        if (strpos($zifuchuan, $zifu) !== false) {
+            return true;
+        } else {
+
+            return false;
+        }
+    }
 }
