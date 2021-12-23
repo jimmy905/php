@@ -281,7 +281,7 @@ class Tool
     static function wxSmallMubanSend($appid, $secret, $openid, $mubanid, $page, $data)
     {
 
-        $shuzu = Tool::getWxAccessToken($appid, $secret);
+        $shuzu = self::getWxAccessToken($appid, $secret);
         $shuzu = json_decode($shuzu, true);
         $access_token = $shuzu['access_token'];
 
