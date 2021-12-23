@@ -258,6 +258,46 @@ class Tool
         return $arr;
     }
 
+
+    // 获取微信的access_token   
+
+    static function getAccessToken($appid, $secret)
+    {
+        //接收用户性别
+        //下面url是请求微信端地址获取用户唯一标识的，对应的appid和secret改成自己的
+        // $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appid . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
+
+
+        $url = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appid . "&secret=" . $secret;
+
+
+        //初始化
+        $ch = curl_init();
+
+        //设置选项，包括URL
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+        //执行并获取HTML文档内容
+        $output = curl_exec($ch);
+
+        //释放curl句柄
+        curl_close($ch);
+
+        //打印获得的数据
+        // print_r( $output );
+
+        $shuzu = json_decode($output, true);
+
+        var_dump($shuzu);
+    }
+
+
+
+
     // 获取openid
     static function getopenid($appid, $secret, $code)
     {
@@ -291,6 +331,10 @@ class Tool
 
         return $shuzu;
     }
+
+
+
+
 
 
 
