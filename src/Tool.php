@@ -277,17 +277,33 @@ class Tool
     }
 
 
+    // 小程序模版消息发送
+    static function wxSmallMubanSend($appid, $secret, $openid, $mubanid, $page, $data)
+    {
+
+        $shuzu = Tool::getWxAccessToken($appid, $secret);
+        $shuzu = json_decode($shuzu, true);
+        $access_token = $shuzu['access_token'];
+
+        $wangzhi = 'https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=' . $access_token;
+
+        $post_data = array(
+            'access_token'  => $access_token,
+            'touser'        => $openid, // 用户openid
+            'template_id'   => $mubanid, // 消息模板ID
+            'page'          => $page, // 小程序跳转页面 ,需要上线
+            'data'          => $data, // 模板内容（注意格式问题）
+        );
+        $angzhi = Tool::curlPost($wangzhi, json_encode($post_data));
+
+        return $angzhi;
+    }
 
 
 
     // httpsget请求
     static function curlGet($url)
     {
-
-
-
-
-
 
         //初始化
         $ch = curl_init();
