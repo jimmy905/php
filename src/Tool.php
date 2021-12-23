@@ -270,10 +270,10 @@ class Tool
 
         $url = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appid . "&secret=" . $secret;
 
+        $neirong = file_get_contents($url);
 
 
-
-        var_dump($url);
+        var_dump($neirong);
     }
 
 
