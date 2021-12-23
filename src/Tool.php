@@ -261,7 +261,7 @@ class Tool
 
     // 获取微信的access_token   
 
-    static function getAccessToken($appid, $secret)
+    static function getWxAccessToken($appid, $secret)
     {
         //接收用户性别
         //下面url是请求微信端地址获取用户唯一标识的，对应的appid和secret改成自己的
