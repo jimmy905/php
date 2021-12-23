@@ -290,6 +290,9 @@ class Tool
 
 
 
+        var_dump($url);
+
+
         //初始化
         $ch = curl_init();
 
@@ -299,6 +302,8 @@ class Tool
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
+
 
         //执行并获取HTML文档内容
         $output = curl_exec($ch);
