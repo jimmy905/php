@@ -268,10 +268,7 @@ class Tool
         // $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appid . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
 
 
-        $url = " https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appid . "&secret=" . $secret;
-
-        var_dump($url);
-
+        $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $appid . "&secret=" . $secret;
 
         $neirong = self::curlGet($url);
 
@@ -290,7 +287,6 @@ class Tool
 
 
 
-        var_dump($url);
 
 
         //初始化
@@ -313,12 +309,7 @@ class Tool
         //释放curl句柄
         curl_close($ch);
 
-        var_dump('111');
 
-
-
-
-        var_dump($output);
 
 
         return $output;    //返回json对象
