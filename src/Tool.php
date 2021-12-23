@@ -288,7 +288,7 @@ class Tool
         curl_close($ch);
 
         //打印获得的数据
-        // print_r( $output );
+        print_r($output);
 
         $shuzu = json_decode($output, true);
 
