@@ -273,7 +273,7 @@ class Tool
         $neirong = self::curlGet($url);
 
 
-        var_dump($neirong);
+        return $neirong;
     }
 
 
