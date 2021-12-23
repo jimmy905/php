@@ -303,7 +303,7 @@ class Tool
         //释放curl句柄
         curl_close($ch);
 
-
+        var_dump('111');
 
 
 
