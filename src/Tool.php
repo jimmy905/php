@@ -36,6 +36,17 @@ class Tool
 
         return $huiyuan;
     }
+    // 获取会员
+    static function getAdmin(Request $request)
+    {
+
+        $openid = $request->param('admintoken');
+
+        // 查询会员
+        $huiyuan = Db::name("yuanhou_admin")->where('token', $openid)->find();
+
+        return $huiyuan;
+    }
 
 
     // 获取今天日期
