@@ -27,7 +27,7 @@ class Tool
     // 提取变量
     static function tiqu($shuzu, $ziduan)
     {
-        // 提取
+        // 提取111
 
         if (isset($shuzu[$ziduan])) {
             return $shuzu[$ziduan];
