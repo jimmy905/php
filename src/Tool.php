@@ -24,6 +24,17 @@ class Tool
         return  number_format($num, $wei, ".", "");
     }
 
+    // 提取变量
+    static function tiqu($shuzu, $ziduan)
+    {
+
+        if (isset($shuzu[$ziduan])) {
+            return $shuzu[$ziduan];
+        } else {
+            return '';
+        }
+    }
+
 
     // 获取会员
     static function gethuiyuan(Request $request)
@@ -36,6 +47,18 @@ class Tool
 
         return $huiyuan;
     }
+    // 获取会员
+    static function getUser(Request $request)
+    {
+
+        $openid = $request->param('token');
+
+        // 查询会员
+        $huiyuan = Db::name("yuanhou_user")->where('token', $openid)->find();
+
+        return $huiyuan;
+    }
+
     // 获取会员
     static function getAdmin(Request $request)
     {
@@ -156,6 +179,19 @@ class Tool
             $zuotian = date('Y-m-d', strtotime('-1 day', strtotime($date)));
         } else {
             $zuotian = date('Y-m-d', strtotime('-1 day'));
+        }
+
+        return     $zuotian;
+    }
+
+    // 获取日期
+    static  function riqi($date = null, $tian)
+    {
+        if ($date) {
+
+            $zuotian = date('Y-m-d', strtotime($tian . ' day', strtotime($date)));
+        } else {
+            $zuotian = date('Y-m-d', strtotime($tian . ' day'));
         }
 
         return     $zuotian;
@@ -530,6 +566,36 @@ class Tool
         $km = $r * $c;
         return $miles ? ($km * 0.621371192 * 1.609344) : ($km * 0.621371192 * 1.609344 * 1000);
     }
+
+
+
+    static  function baiduJuli($lat1 = 0, $lng1 = 0, $lat2 = 0, $lng2 = 0, $ak = "t1GTuZRbjUzLHlcrwGIkKaKy7bfihKiN")
+    {
+        $result = array();
+        $result['distance'] = 0.00; //距离 公里
+        $result['duration'] = 0.00; //时间 分钟
+        $ak = $ak;
+        $url = 'http://api.map.baidu.com/routematrix/v2/driving?output=json&origins=' . $lat1 . ',' . $lng1 . '&destinations=' . $lat2 . ',' . $lng2 . '&ak=' . $ak;
+        $data = file_get_contents($url);
+
+        // var_dump($data);
+
+        $data = json_decode($data, true);
+
+
+
+
+
+
+        if (!empty($data) && $data['status'] == 0) {
+            $result['distance'] = $data['result'][0]['distance']['text'];
+            $result['duration'] = $data['result'][0]['duration']['text'];
+        }
+        return $result;
+    }
+
+
+
 
     //  查询字符串中是否包含某个字符串
     static function isBaohan($zifuchuan, $zifu)
