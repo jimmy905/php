@@ -154,6 +154,73 @@ class Tool
             return false;
         }
     }
+    // 删除
+    static function del($biao, $id)
+    {
+
+        $up = Db::table($biao)->where('id', $id)->update(['isdel' => 1]);
+
+        if ($up) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // 查询多条数据
+    static function cha($biao, $tiaojian = [])
+    {
+
+
+        $ls = Db::table($biao)->where([
+            ['isdel', '=', 0],
+        ])->where($tiaojian)->select()->toArray();
+
+        return $ls;
+    }
+
+
+
+
+    // 查询单条数据
+    static function find($biao, $tiaojian = [])
+    {
+
+
+        $r = Db::table($biao)->where([
+            ['isdel', '=', 0],
+        ])->where($tiaojian)->find();
+
+        return $r;
+    }
+
+
+
+
+
+    // 更新
+    static function update($biao, $id, $arr = [])
+    {
+
+        $up = Db::table($biao)->where('id', $id)->where('isdel', 0)->update($arr);
+
+        if ($up) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    // 添加
+    static function add($biao, $arr = [])
+    {
+
+        $in = Db::name($biao)->insert($arr);
+        if ($in) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     //获取月初
     static function yuechu($date = null)
