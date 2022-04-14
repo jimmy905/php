@@ -81,11 +81,6 @@ class Tool
     }
 
 
-
-
-
-
-
     // 成功的返回
     static function fan_ok($arr)
     {
@@ -234,6 +229,13 @@ class Tool
 
 
         return $yuechu;
+    }
+
+    // 获取上月下月的今天日期
+    static function someyue($fukuanqi, $i)
+    {
+
+        return  $yue = date("Y-m-d", strtotime($i . " months", strtotime($fukuanqi)));
     }
 
 
