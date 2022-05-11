@@ -497,12 +497,17 @@ class Tool
     static function getopenid($appid, $secret, $code)
     {
 
+
+
+
         //接收用户性别
         //下面url是请求微信端地址获取用户唯一标识的，对应的appid和secret改成自己的
         $url = 'https://api.weixin.qq.com/sns/jscode2session?appid=' . $appid . '&secret=' . $secret . '&js_code=' . $code . '&grant_type=authorization_code';
 
         //初始化
         $ch = curl_init();
+
+
 
         //设置选项，包括URL
         curl_setopt($ch, CURLOPT_URL, $url);
