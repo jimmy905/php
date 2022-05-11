@@ -615,6 +615,313 @@ class Tool
 
 
 
+    static function wuweiziduan($request)
+    {
+
+
+
+        $biao = "yuanhou_ziduan";
+        $lx = $request->param('lx');
+        if ($lx == 'getlist') {
+            $tiaojian = [];
+
+            $biao1 = $request->param('biao') ?: '';
+
+
+            if ($biao1) {
+                $tiaojian[] = ['biao', '=', $biao1];
+            }
+
+
+            // var_dump($biao1);
+
+
+            // 获取列表
+            $page = $request->param('page') ?: 1;
+
+            $pagenum = $request->param('pagenum') ?: 20;
+
+            $shuju = Db::table($biao)->order('paixu desc')->where('isdel', '0')->where($tiaojian)->paginate($pagenum, false, [
+                'var_page' => $page,
+            ]);
+            $list = $shuju->items();
+            $fenset = [
+                'page' => $shuju->currentPage(),
+                'pagenum' => $shuju->listRows(),
+                'total' => $shuju->total(),
+            ];
+            // $fanhui = $this->good(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]);
+            return json(fan_ok(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]));
+        } else if ($lx == 'get') {
+            $id = $request->param('id');
+            // 查看详情
+            $r = Db::name($biao)->where('id', $id)->find();
+            if ($r) {
+
+                return json(fan_ok(['msg' => '查询成功', 'data' => $r]));
+            } else {
+
+                return json(fan_fail(['msg' => '查询失败']));
+            }
+        } else if ($lx == 'del') {
+            $id = $request->param('id');
+            // 删除
+            $data = ['isdel' => 1];
+            $del = Db::name($biao)->where('id', $id)->update($data);
+
+            if ($del) {
+                return json(fan_ok(['msg' => '删除成功']));
+            } else {
+                return json(fan_fail(['msg' => '删除失败']));
+            }
+        } else if ($lx == 'add') {
+
+            // 新增
+            $data = $request->param('data');
+
+            $data['intime'] = xianzai();
+            $data['uptime'] = xianzai();
+
+            // 这里对图片进行处理
+            if (isset($data['pics'])) {
+                $pics = $data['pics'];
+                $data['pics'] = json_encode($pics);
+            }
+
+
+
+
+            $biao1 = $data['biao'];
+            $ziduan = $data['ziduan'];
+
+
+            $lx = $data['lx'];
+
+
+
+
+
+
+
+
+
+            $shuzu = Db::query("show COLUMNS FROM " . 'yuanhou_' . $biao1);
+
+            // var_dump($shuzu);
+
+
+            $Fields = array_column($shuzu, 'Field');
+            // var_dump($Fields);
+
+            $jieguo = array_search($ziduan, $Fields);
+
+            if ($jieguo) {
+            } else {
+
+                if ($lx == '文本') {
+                    // 如果没有字段的话,新增字段
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT NULL";
+                    Db::execute($sql);
+                } else if ($lx == '价格') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " decimal(10,2) DEFAULT NULL";
+                    Db::execute($sql);
+                } else if ($lx == '富文本') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
+                    Db::execute($sql);
+                } else if ($lx == '数字') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    Db::execute($sql);
+                } else if ($lx == '选择框') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    Db::execute($sql);
+                } else if ($lx == '开关') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    Db::execute($sql);
+                }
+            }
+
+
+
+
+            $in = Db::name($biao)->insert($data);
+
+            if ($in) {
+                return json(fan_ok(['msg' => '添加成功']));
+            } else {
+                return json(fan_fail(['msg' => '添加失败']));
+            }
+        } else if ($lx == 'edit') {
+            // 编辑
+            $data = $request->param('data');
+            $data['uptime'] = xianzai();
+            $id = $request->param('id');
+            // 这里对图片进行处理
+            if (isset($data['pics'])) {
+                $pics = $data['pics'];
+                $data['pics'] = json_encode($pics);
+            }
+
+            $up = Db::name($biao)->where('id', $id)->update($data);
+
+            if ($up) {
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+                return json(fan_fail(['msg' => '更新失败']));
+            }
+        } else if ($lx == 'liebiaoxianshi') {
+
+
+            $id = $request->param('id');
+
+            $up = Db::table('yuanhou_ziduan')->where([
+                ['isdel', '=', 0],
+                ['id', '=', $id],
+            ])->update(
+                [
+                    'isliebiao' => 1
+                ]
+            );
+
+            if ($up) {
+
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+
+                return json(fan_fail(['msg' => '更新失败']));
+            }
+
+
+
+
+
+            // var_dump($id);
+
+        } else if ($lx == 'liebiaoyincang') {
+
+            $id = $request->param('id');
+
+            $up = Db::table('yuanhou_ziduan')->where([
+                ['isdel', '=', 0],
+                ['id', '=', $id],
+            ])->update(
+                [
+                    'isliebiao' => 0
+                ]
+            );
+
+            if ($up) {
+
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+
+                return json(fan_fail(['msg' => '更新失败']));
+            }
+        } else if ($lx == 'paixu') {
+            $id = $request->param('id');
+            $paixu = $request->param('paixu');
+            // 更新排序
+            $up = Db::table('yuanhou_ziduan')->where('id', $id)->update(['paixu' => $paixu]);
+
+            if ($up) {
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+                return json(fan_fail(['msg' => '更新失败']));
+            }
+        } else if ($lx == 'getguanlian') {
+            $biao = $request->param('biao');
+
+            // 查询当前表
+            $ls = Db::table('yuanhou_ziduan')->where([
+                ['isdel', '=', 0],
+                ['biao', '=', $biao],
+                ['guanlianbiao', '<>', 'null'],
+            ])->select()->toArray();
+
+
+
+            $zuzu = [];
+
+
+            foreach ($ls as $k => $v) {
+
+                $guanlianbiao = $v['guanlianbiao'];
+
+                $biaoming = 'yuanhou_' . $guanlianbiao;
+
+                // var_dump($biaoming);
+
+
+                // 查询当前关联表
+                $ls2 = Db::table($biaoming)->where([
+                    ['isdel', '=', 0],
+
+                ])->select()->toArray();
+
+
+
+
+                $zuzu[$guanlianbiao] = $ls2;
+
+
+
+
+
+                // var_dump($guanlianbiao);
+            }
+
+
+
+            return json(fan_ok(['msg' => '查询成功', 'data' => $zuzu]));
+        } else if ($lx == 'getguanlianliebiao') {
+            $biao = $request->param('biao');
+
+            // 查询当前表
+            $ls = Db::table('yuanhou_ziduan')->where([
+                ['isdel', '=', 0],
+                ['biao', '=', $biao],
+                ['isliebiao', '=', 1],
+                ['guanlianbiao', '<>', 'null'],
+            ])->select()->toArray();
+
+
+
+            $zuzu = [];
+
+
+            foreach ($ls as $k => $v) {
+
+                $guanlianbiao = $v['guanlianbiao'];
+
+                $biaoming = 'yuanhou_' . $guanlianbiao;
+
+                // var_dump($biaoming);
+
+
+                // 查询当前关联表
+                $ls2 = Db::table($biaoming)->where([
+                    ['isdel', '=', 0],
+
+                ])->select()->toArray();
+
+
+
+
+                $zuzu[$guanlianbiao] = $ls2;
+
+
+
+
+
+                // var_dump($guanlianbiao);
+            }
+
+
+
+            return json(fan_ok(['msg' => '查询成功', 'data' => $zuzu]));
+        }
+    }
+
+
 
     /** 
      * 计算两个经纬度坐标 之间的距离,返回的是千米或米
