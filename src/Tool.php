@@ -923,6 +923,47 @@ class Tool
 
 
             return json(fan_ok(['msg' => '查询成功', 'data' => $zuzu]));
+        } else if ($lx == 'getpeizhi') {
+
+            // var_dump('222');
+
+            $ziduan = Db::table('yuanhou_ziduan')->where([
+                ['isdel', '=', 0],
+            ])->select()->toArray();
+
+            // 查询配置
+
+
+            $pId = $request->param('pId');
+
+
+            $tiaojian = [];
+
+            $tiaojian[] = ['pId', '=', '0'];
+
+
+            // 获取列表
+            $page = $request->param('page') ?: 1;
+
+            $pagenum = $request->param('pagenum') ?: 20;
+
+            $shuju = Db::table('yuanhou_navhou')->order('id desc')->where('isdel', '0')->where($tiaojian)->paginate($pagenum, false, [
+                'var_page' => $page,
+            ]);
+            $list = $shuju->items();
+
+            // 查询子栏目
+            foreach ($list as $k => $v) {
+                $list[$k]['list'] = Db::table('yuanhou_navhou')->where('pId', $v['id'])->where('isdel', '0')->select();
+            }
+
+            // var_dump($ziduan);
+
+
+            // var_dump($list);
+
+
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $list]));
         }
     }
 
