@@ -635,6 +635,7 @@ class Tool
 
             if ($biao1) {
                 $tiaojian[] = ['biao', '=', $biao1];
+                $tiaojian[] = ['isdel', '=', 0];
             }
 
 
