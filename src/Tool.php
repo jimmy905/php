@@ -1267,4 +1267,114 @@ class Tool
             return false;
         }
     }
+
+
+
+    static public function getMenuAll()
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
+
+        $ls = Db::table('yuanhou_lanmu')->where([
+            ['isdel', '=', 0],
+        ])->select()->toArray();
+        foreach ($ls as $k => $v) {
+
+            // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
+            $ls[$k]['label'] = $v['name'];
+        }
+
+
+
+
+
+
+        return self::makeArr($ls);
+    }
+
+
+    static public function getMenuAlllanmu()
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
+
+        $ls = Db::table('yuanhou_lanmufujian')->where([
+            ['isdel', '=', 0],
+        ])->select()->toArray();
+        foreach ($ls as $k => $v) {
+
+            $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
+        }
+
+
+
+
+
+
+        return self::makeArr($ls);
+    }
+
+
+
+
+    static public function getMenuAll1()
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
+
+        $ls = Db::table('yuanhou_navhou')->where([
+            ['isdel', '=', 0],
+        ])->order('paixu desc')->select()->toArray();
+
+        // var_dump($ls);
+
+
+        foreach ($ls as $k => $v) {
+
+
+
+            $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
+        }
+
+
+
+
+
+
+        return self::makeArr($ls);
+    }
+
+
+
+    /**
+     * 递归循环
+     * @param $res  总数组
+     * @param int $pid 父级id
+     * @return array
+     */
+    static  public function makeArr($res, $pid = 0)
+    {
+        $arr = [];
+        $item['pId'] = $pid;
+        $data = self::screen($res, $item);
+        foreach ($data as $key => $val) {
+            $ite['pId'] = $val['id'];
+            $result = self::screen($res, $ite);
+            if (!empty($result)) {
+                $val['children'] = self::makeArr($res, $val['id']);
+            }
+            $arr[] = $val;
+        }
+        return  $arr;
+    }
+
+    /**
+     * 数组键值对查询 返回查询数组
+     * @param $res
+     * @param $val
+     * @return array
+     */
+    static public function screen($res, $val)
+    {
+        return array_filter($res, function ($var) use ($val) {
+            if ($var['pId'] == $val['pId']) return true;
+        });
+    }
 }
