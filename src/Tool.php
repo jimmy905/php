@@ -649,6 +649,216 @@ class Tool
 
 
 
+    static function wuweinavhou($request)
+    {
+
+
+
+        $biao = "yuanhou_navhou";
+        $lx = $request->param('lx');
+        if ($lx == 'getlist') {
+
+            $pId = $request->param('pId');
+
+
+            $tiaojian = [];
+
+            $tiaojian[] = ['pId', '=', '0'];
+
+
+            // 获取列表
+            $page = $request->param('page') ?: 1;
+
+            $pagenum = $request->param('pagenum') ?: 20;
+
+            $shuju = Db::table($biao)->order('paixu desc')->where('isdel', '0')->where($tiaojian)->paginate($pagenum, false, [
+                'var_page' => $page,
+            ]);
+            $list = $shuju->items();
+
+            // 查询子栏目
+            foreach ($list as $k => $v) {
+                $list[$k]['list'] = Db::table($biao)->where('pId', $v['id'])->where('isdel', '0')->select();
+            }
+
+
+            $fenset = [
+                'page' => $shuju->currentPage(),
+                'pagenum' => $shuju->listRows(),
+                'total' => $shuju->total(),
+            ];
+            // $fanhui = $this->good(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]);
+            return json(fan_ok(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]));
+        } else if ($lx == 'get') {
+            $id = $request->param('id');
+            // 查看详情
+            $r = Db::name($biao)->where('id', $id)->find();
+            if ($r) {
+
+                return json(fan_ok(['msg' => '查询成功', 'data' => $r]));
+            } else {
+
+                return json(fan_fail(['msg' => '查询失败']));
+            }
+        } else if ($lx == 'del') {
+            $id = $request->param('id');
+            // 删除
+            $data = ['isdel' => 1];
+            $del = Db::name($biao)->where('id', $id)->update($data);
+
+            if ($del) {
+                return json(fan_ok(['msg' => '删除成功']));
+            } else {
+                return json(fan_fail(['msg' => '删除失败']));
+            }
+        } else if ($lx == 'add') {
+
+            // 新增
+            $data = $request->param('data');
+
+            $data['intime'] = xianzai();
+            $data['uptime'] = xianzai();
+
+
+            $biao1 = 'yuanhou_' . $data['biao'];
+
+
+
+            $sql = "SELECT table_name FROM information_schema.TABLES WHERE table_name ='" . $biao1 . "'";
+
+            $r1 = Db::query($sql);
+
+
+            $juesexuan = json_encode($data['juesexuan']);
+
+
+
+            $data['juesexuan'] = $juesexuan;
+
+
+            unset($data['shangji']);
+
+
+            // 这里对图片进行处理
+            if (isset($data['pics'])) {
+                $pics = $data['pics'];
+                $data['pics'] = json_encode($pics);
+            }
+
+            $in = Db::name($biao)->insert($data);
+
+            if ($in) {
+
+
+
+
+                if (count($r1) == 0) {
+                    // 说明没有此表
+                    // 创建表
+
+                    $sql2 = "CREATE TABLE `" . $biao1 . "` (
+                        `id` int unsigned NOT NULL AUTO_INCREMENT,
+                        `name` varchar(255) DEFAULT NULL,
+                        `content` longtext,
+                        `isdel` int DEFAULT '0',
+                        `intime` datetime DEFAULT NULL,
+                        `pics` text,
+                        `uptime` datetime DEFAULT NULL,
+                        PRIMARY KEY (`id`) USING BTREE
+                        ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT;";
+
+
+                    Db::query($sql2);
+                }
+
+                return json(fan_ok(['msg' => '添加成功']));
+            } else {
+                return json(fan_fail(['msg' => '添加失败']));
+            }
+        } else if ($lx == 'edit') {
+
+
+            // 编辑
+            $data = $request->param('data');
+            $data['uptime'] = xianzai();
+            $id = $request->param('id');
+
+            $juesexuan = json_encode($data['juesexuan']);
+
+
+            $data['juesexuan'] = $juesexuan;
+
+
+
+            // 这里对图片进行处理
+            if (isset($data['pics'])) {
+                $pics = $data['pics'];
+                $data['pics'] = json_encode($pics);
+            }
+
+            $up = Db::name($biao)->where('id', $id)->update($data);
+
+            if ($up) {
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+                return json(fan_fail(['msg' => '更新失败']));
+            }
+        } else if ($lx == 'getlanmuall') {
+
+            // var_dump('121212');
+
+
+
+            $jieguo =  self::getMenuAll1();
+
+
+            return json(fan_ok(['msg' => '查询成功', 'list' => $jieguo]));
+        } else if ($lx == 'getlie') {
+            $biao = $request->param('biao');
+
+
+            $fuid = $request->param('fuid');
+
+            // 查询栏目
+
+
+            $fu = Db::table('yuanhou_navhou')->where([
+                ['isdel', '=', 0],
+                ['id', '=', $fuid],
+
+            ])->find();
+
+
+
+
+
+
+
+
+
+            $pId = $fu['id'];
+
+            $ls = Db::table('yuanhou_navhou')->where([
+                ['isdel', '=', 0],
+                ['pId', '=', $pId],
+                ['xianshi', '=', 1],
+            ])->select()->toArray();
+
+
+
+
+
+
+
+
+            // var_dump($ls);
+
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ls, 'fu' => $fu]));
+        }
+    }
+
+
+
     static function wuweiziduan($request)
     {
 
@@ -772,9 +982,6 @@ class Tool
                     Db::execute($sql);
                 }
             }
-
-
-
 
             $in = Db::name($biao)->insert($data);
 
