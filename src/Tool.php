@@ -130,6 +130,35 @@ class Tool
         return $arr;
     }
 
+
+    // 腾讯获取距离
+    static  function tengxunJuli($lat1 = 0, $lng1 = 0, $lat2 = 0, $lng2 = 0, $ak)
+    {
+        $result = array();
+        $result['distance'] = 0.00; //距离 公里
+        $result['duration'] = 0.00; //时间 分钟
+        // $ak = '32YBZ-EIHCD-6MH44-P663Z-KOD46-YYBYP';
+        $url = 'https://apis.map.qq.com/ws/distance/v1/matrix/?mode=driving&from=' . $lat1 . ',' . $lng1 . '&to=' . $lat2 . ',' . $lng2 . '&key=' . $ak;
+
+        // var_dump($url);
+
+        $data = file_get_contents($url);
+        $data = json_decode($data, true);
+
+        return $data;
+
+        // $result = $data['result'];
+        // $shuzu =  $result['rows'][0]['elements'][0];
+        //     // $duration  = $result['rows'][0]['elements'][0]['duration'];
+
+
+
+
+
+        // return $shuzu;
+    }
+
+
     //  密码
     static function mima($data)
     {
@@ -703,14 +732,6 @@ class Tool
 
             $lx = $data['lx'];
 
-
-
-
-
-
-
-
-
             $shuzu = Db::query("show COLUMNS FROM " . 'yuanhou_' . $biao1);
 
             // var_dump($shuzu);
@@ -742,6 +763,12 @@ class Tool
                     Db::execute($sql);
                 } else if ($lx == '开关') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    Db::execute($sql);
+                } else if ($lx == '多选框') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . "varchar(255) DEFAULT NULL";
+                    Db::execute($sql);
+                } else if ($lx == '图片') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
                     Db::execute($sql);
                 }
             }
