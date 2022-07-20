@@ -109,38 +109,30 @@ class Tool
     // 获取现在的时间datetime
     static function xianzai()
     {
-
         return date("Y-m-d H:i:s", time());
     }
 
 
     // 获取位置
-    static function getweizhi($longitude, $latitude)
+    static function getweizhi($longitude, $latitude, $ak = 't1GTuZRbjUzLHlcrwGIkKaKy7bfihKiN')
     {
         //调取百度接口,其中ak为百度帐号key,注意location纬度在前，经度在后
 
-        $api = "http://api.map.baidu.com/reverse_geocoding/v3/?ak=t1GTuZRbjUzLHlcrwGIkKaKy7bfihKiN&output=json&coordtype=wgs84ll&location=" . $latitude . "," . $longitude;
-
+        $api = "http://api.map.baidu.com/reverse_geocoding/v3/?ak=" . $ak . "&output=json&coordtype=wgs84ll&location=" . $latitude . "," . $longitude;
         $content = file_get_contents($api);
         $arr = json_decode($content, true);
-
-        // var_dump($arr);
-
-
         return $arr;
     }
 
 
     // 腾讯获取距离
-    static  function tengxunJuli($lat1 = 0, $lng1 = 0, $lat2 = 0, $lng2 = 0, $ak)
+    static  function tengxunJuli($lat1 = 0, $lng1 = 0, $lat2 = 0, $lng2 = 0, $ak = '')
     {
         $result = array();
         $result['distance'] = 0.00; //距离 公里
         $result['duration'] = 0.00; //时间 分钟
         // $ak = '32YBZ-EIHCD-6MH44-P663Z-KOD46-YYBYP';
         $url = 'https://apis.map.qq.com/ws/distance/v1/matrix/?mode=driving&from=' . $lat1 . ',' . $lng1 . '&to=' . $lat2 . ',' . $lng2 . '&key=' . $ak;
-
-        // var_dump($url);
 
         $data = file_get_contents($url);
         $data = json_decode($data, true);
@@ -150,10 +142,6 @@ class Tool
         // $result = $data['result'];
         // $shuzu =  $result['rows'][0]['elements'][0];
         //     // $duration  = $result['rows'][0]['elements'][0]['duration'];
-
-
-
-
 
         // return $shuzu;
     }
@@ -1322,21 +1310,12 @@ class Tool
         $ls = Db::table('yuanhou_navhou')->where([
             ['isdel', '=', 0],
         ])->order('paixu desc')->select()->toArray();
-
-        // var_dump($ls);
-
-
         foreach ($ls as $k => $v) {
 
 
 
             $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
         }
-
-
-
-
-
 
         return self::makeArr($ls);
     }
