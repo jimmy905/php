@@ -153,6 +153,13 @@ class Tool
 
         return md5('yuanhou' . $data);
     }
+    //  获取token
+    static function gettoken($data)
+    {
+
+        return md5('yuanhou' . $data);
+    }
+
 
     // 删除
     static function shanchu($biao, $id)
