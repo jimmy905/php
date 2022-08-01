@@ -968,6 +968,9 @@ class Tool
                 } else if ($lx == '图片') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
                     Db::execute($sql);
+                } else if ($lx == '编辑器') {
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
                 }
             }
 
