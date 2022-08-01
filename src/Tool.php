@@ -240,6 +240,17 @@ class Tool
             return false;
         }
     }
+    // 添加
+    static function addId($biao, $arr = [])
+    {
+
+        $in = Db::name($biao)->insertGetId($arr);
+        if ($in) {
+            return $in;
+        } else {
+            return false;
+        }
+    }
 
     //获取月初
     static function yuechu($date = null)
