@@ -848,7 +848,7 @@ class Tool
                 ['isdel', '=', 0],
                 ['pId', '=', $pId],
                 ['xianshi', '=', 1],
-            ])->select()->toArray();
+            ])->order('paixu desc')->select()->toArray();
 
 
 
