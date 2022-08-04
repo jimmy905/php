@@ -684,8 +684,11 @@ class Tool
 
             // 查询子栏目
             foreach ($list as $k => $v) {
-                $list[$k]['list'] = Db::table($biao)->where('pId', $v['id'])->where('isdel', '0')->select();
+                $list[$k]['list'] = Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where('isdel', '0')->select();
             }
+
+
+
 
 
             $fenset = [
