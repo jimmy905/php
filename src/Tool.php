@@ -951,6 +951,19 @@ class Tool
             $biao1 = $data['biao'];
             $ziduan = $data['ziduan'];
 
+            $moren = 'NULL';
+
+            if (isset($data['moren'])) {
+                $moren = $data['moren'];
+                if ($moren == '') {
+                    $moren = 'NULL';
+                }
+            }
+
+
+
+
+
 
             $lx = $data['lx'];
 
@@ -969,37 +982,36 @@ class Tool
 
                 if ($lx == '文本') {
                     // 如果没有字段的话,新增字段
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT NULL";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '价格') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " decimal(10,2) DEFAULT NULL";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " decimal(10,2) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '富文本') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '数字') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '选择框') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '开关') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT 0";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '多选框') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . "varchar(255) DEFAULT NULL";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . "varchar(255) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '图片') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '编辑器') {
-
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT NULL";
-
-
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " longtext DEFAULT " . $moren;
                     Db::execute($sql);
                 }
             }
+
+
 
             $in = Db::name($biao)->insert($data);
 
