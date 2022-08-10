@@ -664,54 +664,10 @@ class Tool
         $lx = $request->param('lx');
         if ($lx == 'getlist') {
 
-
-            $admintoken = $request->param('admintoken');
-
-
-            // 获取admin
-            $admin = Db::name('yuanhou_admin')->where('token', $admintoken)->find();
-
-
-            $jueseid = $admin['jueseid'];
-            $tiaojian = [];
-
-
-            if ($jueseid) {
-
-                // 查询角色
-                $juese = Db::name('yuanhou_juese')->where('id', $jueseid)->find();
-                // var_dump($juese);
-                // 获取标识
-
-                $biaoshi = $juese['biaoshi'];
-
-
-
-                if ($biaoshi) {
-
-                    $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
-
-
-                // var_dump($biaoshi);
-            }
-
-
-
-
-
-
-
-
-
-
-
-
             $pId = $request->param('pId');
 
 
-
-
+            $tiaojian = [];
 
             $tiaojian[] = ['pId', '=', '0'];
 
@@ -728,14 +684,7 @@ class Tool
 
             // 查询子栏目
             foreach ($list as $k => $v) {
-
-                $tiaojian1 = [];
-
-                if (isset($biaoshi) && $biaoshi) {
-                    $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
-
-                $list[$k]['list'] = Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select();
+                $list[$k]['list'] = Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where('isdel', '0')->select();
             }
 
 
@@ -1243,48 +1192,6 @@ class Tool
 
             // var_dump('222');
 
-            $tiaojian = [];
-            $admintoken = $request->param('admintoken');
-
-            // var_dump($admintoken);
-
-            // 查询admin
-            $admin = Db::table('yuanhou_admin')->where([
-                ['isdel', '=', 0],
-                ['token', '=', $admintoken],
-            ])->find();
-
-
-
-            $jueseid = $admin['jueseid'];
-
-
-            // var_dump($jueseid);
-
-
-            if ($jueseid) {
-                // 查询角色
-                $juese = Db::table('yuanhou_juese')->where([
-                    ['isdel', '=', 0],
-                    ['id', '=', $jueseid],
-                ])->find();
-
-
-                $biaoshi = $juese['biaoshi'];
-
-                if ($biaoshi) {
-
-                    $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
-
-                // var_dump($biaoshi);
-            }
-
-
-
-
-
-
             $ziduan = Db::table('yuanhou_ziduan')->where([
                 ['isdel', '=', 0],
             ])->select()->toArray();
@@ -1295,6 +1202,7 @@ class Tool
             $pId = $request->param('pId');
 
 
+            $tiaojian = [];
 
             $tiaojian[] = ['pId', '=', '0'];
 
@@ -1313,17 +1221,7 @@ class Tool
 
             // 查询子栏目
             foreach ($list as $k => $v) {
-
-                $tiaojian1 = [];
-
-
-                if (isset($biaoshi) && $biaoshi) {
-
-                    $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
-
-
-                $list[$k]['list'] = Db::table('yuanhou_navhou')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select();
+                $list[$k]['list'] = Db::table('yuanhou_navhou')->where('pId', $v['id'])->where('isdel', '0')->select();
             }
 
             // var_dump($ziduan);
