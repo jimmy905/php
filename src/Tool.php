@@ -4,7 +4,7 @@ namespace yuanhou\composer;
 
 use think\facade\Db;
 use think\Request;
-
+use think\facade\Cache;
 
 class Tool
 {
@@ -23,6 +23,30 @@ class Tool
     {
         return  number_format($num, $wei, ".", "");
     }
+
+
+
+
+    // redis存
+    static function rediscun($key, $data)
+    {
+        $biaoshi = BIAOSHI . '_' . $key;
+
+        Cache::store('redis')->set($biaoshi, $data);
+
+        return true;
+    }
+
+    // redis取
+    static function redisqu($key, $data)
+    {
+        $biaoshi = BIAOSHI . '_' . $key;
+
+        $test = Cache::store('redis')->get($biaoshi);
+
+        return $test;
+    }
+
 
     // 提取变量
     static function tiqu($shuzu, $ziduan)
