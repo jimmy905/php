@@ -131,8 +131,16 @@ class Tool
     }
 
     // 获取现在的时间datetime
-    static function xianzai()
+    static function xianzai($chuo = null)
     {
+
+
+
+        if ($chuo) {
+            return date('Y-m-d H:i:s',  time() + $chuo);
+        }
+
+
         return date("Y-m-d H:i:s", time());
     }
 
