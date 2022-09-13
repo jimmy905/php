@@ -1434,11 +1434,11 @@ class Tool
 
 
 
-    static public function getMenuAll()
+    static public function getMenuAll($biao = 'yuanhou_lanmu')
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
-        $ls = Db::table('yuanhou_lanmu')->where([
+        $ls = Db::table($biao)->where([
             ['isdel', '=', 0],
         ])->select()->toArray();
         foreach ($ls as $k => $v) {
