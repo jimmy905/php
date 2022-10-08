@@ -1191,6 +1191,19 @@ class Tool
 
 
                     Db::execute($sql);
+                } else if ($lx == '列表值') {
+
+
+                    // $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . "'" . $moren . "'";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
+
+
+
+
+
+
+
+                    Db::execute($sql);
                 }
             }
 
