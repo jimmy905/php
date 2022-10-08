@@ -1174,6 +1174,13 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . "'" . $moren . "'";
 
                     Db::execute($sql);
+                } else if ($lx == '滑块') {
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
+
+
+
+                    Db::execute($sql);
                 }
             }
 
