@@ -68,7 +68,7 @@ class Tool
         $openid = $request->param('token');
 
         // 查询会员
-        $huiyuan = Db::name("yuanhou_user")->where('token', $openid)->find();
+        $huiyuan = Db::name("yuanhou_user")->where('token', $openid)->where('isdel', 0)->find();
 
         return $huiyuan;
     }
@@ -767,7 +767,30 @@ class Tool
                     $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
                 }
 
-                $list[$k]['list'] = Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select();
+                $list1 =  Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
+
+
+
+                foreach ($list1 as $k1 => $v1) {
+
+                    $tiaojian2 = [];
+
+                    if (isset($biaoshi) && $biaoshi) {
+                        $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+                    }
+
+                    $list2 =  Db::table($biao)->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
+
+
+                    // var_dump($list2);    
+
+
+                    $list1[$k1]['list'] = $list2;
+                }
+
+
+
+                $list[$k]['list'] = $list1;
             }
 
 
@@ -854,8 +877,14 @@ class Tool
                     $sql2 = "CREATE TABLE `" . $biao1 . "` (
                         `id` int unsigned NOT NULL AUTO_INCREMENT,
                         `name` varchar(255) DEFAULT NULL,
+                        `leixing` varchar(255) DEFAULT NULL,
+                        `icon` varchar(255) DEFAULT NULL,
+                        `xiangxi` varchar(255) DEFAULT NULL,
+                        `tpl` varchar(255) DEFAULT NULL,
                         `content` longtext,
+                        
                         `isdel` int DEFAULT '0',
+                        `pId` int DEFAULT '0',
                         `intime` datetime DEFAULT NULL,
                         `pics` text,
                         `uptime` datetime DEFAULT NULL,
@@ -949,6 +978,32 @@ class Tool
             // var_dump($ls);
 
             return json(fan_ok(['msg' => '查询成功', 'list' => $ls, 'fu' => $fu]));
+        } else if ($lx == 'getzilanmubybiao') {
+
+            $biao = $request->param('biao');
+
+
+
+            // 查询当前的表
+            $r = Db::table('yuanhou_navhou')->where([
+                ['isdel', '=', 0],
+                ['biao', '=', $biao],
+            ])->find();
+
+
+            $id = $r['id'];
+            // var_dump($id);
+
+            // 查询当前栏目的子栏目
+            $ls = Db::table('yuanhou_navhou')->where([
+                ['isdel', '=', 0],
+                ['pId', '=', $id],
+            ])->select()->toArray();
+
+
+
+
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ls, 'shangmian' => $r]));
         }
     }
 
@@ -1044,10 +1099,6 @@ class Tool
             }
 
 
-
-
-
-
             $lx = $data['lx'];
 
             $shuzu = Db::query("show COLUMNS FROM " . 'yuanhou_' . $biao1);
@@ -1062,6 +1113,7 @@ class Tool
 
             if ($jieguo) {
             } else {
+
 
                 if ($lx == '文本') {
                     // 如果没有字段的话,新增字段
@@ -1083,13 +1135,40 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '多选框') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . "varchar(255) DEFAULT " . $moren;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . $moren;
+
+
                     Db::execute($sql);
                 } else if ($lx == '图片') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '编辑器') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " longtext DEFAULT " . $moren;
+                    Db::execute($sql);
+                } else if ($lx == '约束选择框') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . $moren;
+                    Db::execute($sql);
+                } else if ($lx == '单选') {
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . "'" . $moren . "'";
+
+                    // $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . "'" . $moren . "'";
+
+                    // var_dump($sql);
+
+
+                    Db::execute($sql);
+                } else if ($lx == '多选') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . "'" . $moren . "'";
+                    Db::execute($sql);
+                } else if ($lx == '颜色') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . "'" . $moren . "'";
+                    Db::execute($sql);
+                } else if ($lx == '日期') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " date ";
+                    Db::execute($sql);
+                } else if ($lx == '日期时间') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " datetime ";
                     Db::execute($sql);
                 }
             }
@@ -1197,23 +1276,35 @@ class Tool
 
             foreach ($ls as $k => $v) {
 
+
+
+                $lx = $v['lx'];
                 $guanlianbiao = $v['guanlianbiao'];
+                if (
+                    $lx == '约束选择框'
+                ) {
 
-                $biaoming = 'yuanhou_' . $guanlianbiao;
-
-                // var_dump($biaoming);
-
-
-                // 查询当前关联表
-                $ls2 = Db::table($biaoming)->where([
-                    ['isdel', '=', 0],
-
-                ])->select()->toArray();
+                    $jieguo = Tool::getMenuAll('yuanhou_' . $guanlianbiao);
+                    $zuzu[$guanlianbiao] = $jieguo;
+                } else {
 
 
+                    $biaoming = 'yuanhou_' . $guanlianbiao;
+
+                    // var_dump($biaoming);
 
 
-                $zuzu[$guanlianbiao] = $ls2;
+                    // 查询当前关联表
+                    $ls2 = Db::table($biaoming)->where([
+                        ['isdel', '=', 0],
+
+                    ])->select()->toArray();
+
+
+
+
+                    $zuzu[$guanlianbiao] = $ls2;
+                }
 
 
 
