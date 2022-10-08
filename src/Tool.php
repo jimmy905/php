@@ -1181,6 +1181,16 @@ class Tool
 
 
                     Db::execute($sql);
+                } else if ($lx == '选择框带值') {
+
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . "'" . $moren . "'";
+
+
+
+
+
+                    Db::execute($sql);
                 }
             }
 
