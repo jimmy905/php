@@ -1195,6 +1195,12 @@ class Tool
             }
 
 
+            if (isset($data['xuanxiang'])) {
+                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            }
+
+
+
 
             $in = Db::name($biao)->insert($data);
 
