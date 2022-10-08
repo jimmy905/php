@@ -1089,12 +1089,12 @@ class Tool
             $biao1 = $data['biao'];
             $ziduan = $data['ziduan'];
 
-            $moren = 'NULL';
+            $moren = '';
 
             if (isset($data['moren'])) {
                 $moren = $data['moren'];
                 if ($moren == '') {
-                    $moren = 'NULL';
+                    $moren = '';
                 }
             }
 
