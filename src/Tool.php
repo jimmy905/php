@@ -1170,6 +1170,10 @@ class Tool
                 } else if ($lx == '日期时间') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " datetime ";
                     Db::execute($sql);
+                } else if ($lx == '评分') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . "'" . $moren . "'";
+
+                    Db::execute($sql);
                 }
             }
 
