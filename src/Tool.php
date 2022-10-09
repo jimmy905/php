@@ -1824,6 +1824,14 @@ class Tool
 
 
 
+
+            $nav1  = Tool::getDigui('yuanhou_navhou');
+
+
+
+
+
+
             foreach ($list as $k => $v) {
 
                 $tiaojian1 = [];
@@ -1866,7 +1874,7 @@ class Tool
             // var_dump($list);
 
 
-            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $list]));
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $list, 'nav1' => $nav1]));
         }
     }
 
@@ -1957,6 +1965,26 @@ class Tool
         return self::makeArr($ls);
     }
 
+    // 递归处理
+    static public function getDigui($biao = 'yuanhou_lanmu')
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
+
+        $ls = Db::table($biao)->where([
+            ['isdel', '=', 0],
+        ])->select()->toArray();
+        foreach ($ls as $k => $v) {
+
+            // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
+            $ls[$k]['label'] = $v['name'];
+        }
+
+
+        return self::makeArrDigui($ls);
+    }
+
+
+
 
     static public function getMenuAlllanmu()
     {
@@ -1969,10 +1997,6 @@ class Tool
 
             $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
         }
-
-
-
-
 
 
         return self::makeArr($ls);
@@ -2016,6 +2040,27 @@ class Tool
             $result = self::screen($res, $ite);
             if (!empty($result)) {
                 $val['children'] = self::makeArr($res, $val['id']);
+            }
+            $arr[] = $val;
+        }
+        return  $arr;
+    }
+    /**
+     * 递归循环
+     * @param $res  总数组
+     * @param int $pid 父级id
+     * @return array
+     */
+    static  public function makeArrDigui($res, $pid = 0)
+    {
+        $arr = [];
+        $item['pId'] = $pid;
+        $data = self::screen($res, $item);
+        foreach ($data as $key => $val) {
+            $ite['pId'] = $val['id'];
+            $result = self::screen($res, $ite);
+            if (!empty($result)) {
+                $val['list'] = self::makeArrDigui($res, $val['id']);
             }
             $arr[] = $val;
         }
