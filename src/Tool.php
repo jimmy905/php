@@ -839,6 +839,9 @@ class Tool
 
 
             $biao1 = 'yuanhou_' . $data['biao'];
+            $biaohou = ucfirst($data['biao']);
+
+
 
 
 
@@ -869,7 +872,6 @@ class Tool
 
 
 
-
                 if (count($r1) == 0) {
                     // 说明没有此表
                     // 创建表
@@ -892,6 +894,332 @@ class Tool
                         ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT;";
                     Db::query($sql2);
                 }
+
+
+                // +++
+                $classname = $biaohou;
+                $str = '<?php
+                namespace app\controller;
+                use app\BaseController;
+                use think\facade\Db;
+                use think\Request;
+                use \yuanhou\composer\Tool;
+                class ' . $classname . ' extends BaseController
+                {
+                
+                    // index
+                    public function index(Request $request)
+                    {
+                        $biao = "yuanhou_";
+                
+                        $biao .= "' . $classname . '";
+                
+                        $biao = strtolower($biao);
+                
+                        $lx = $request->param("lx");
+                        if ($lx == "getlist") {
+                            $tiaojian = [];
+                            $keyword = $request->param("keyword");
+                
+                            if ($keyword) {
+                
+                                $tiaojian[] = ["name|id", "like", "%" . $keyword . "%"];
+                            }
+                            // 获取列表
+                            $page = $request->param("page") ?: 1;
+                
+                            $pagenum = $request->param("pagenum") ?: 20;
+                            // 排序
+                            $paixu1 = "id desc";
+                            $shuju = Db::table($biao)->order($paixu1)->where("isdel", "0")->where($tiaojian)->paginate($pagenum, false, [
+                                "var_page" => $page,
+                            ]);
+                            $list = $shuju->items();
+                            $fenset = [
+                                "page" => $shuju->currentPage(),
+                                "pagenum" => $shuju->listRows(),
+                                "total" => $shuju->total(),
+                            ];
+                            return json(fan_ok(["msg" => "查询成功", "list" => $list, "fenset" => $fenset]));
+                        } else if ($lx == "get") {
+                            $id = $request->param("id");
+                            // 查看详情
+                            $r = Tool::find($biao, ["id" => $id]);
+                            if ($r) {
+                                $ziduanbiao = str_replace("yuanhou_", "", $biao);
+                                // 查询当前标的多选框字段
+                                $ziduans = Tool::cha("yuanhou_ziduan", [
+                                    ["isdel", "=", 0],
+                                    ["biao", "=", $ziduanbiao],
+                
+                
+                                    ["lx", "in", ["图片", "列表值", "附件"]],
+                                ]);
+                
+                                foreach ($ziduans as $k => $v) {
+                
+                                    $ziduan = $v["ziduan"];
+                
+                                    if ($r[$ziduan]) {
+                                        $r[$ziduan] = json_decode($r[$ziduan], true);
+                                    }
+                                }
+                                // 查询当前标的多选框字段
+                                $ziduans  = Tool::cha("yuanhou_ziduan", [
+                                    ["isdel", "=", 0],
+                                    ["biao", "=", $ziduanbiao],
+                                    ["lx", "=", "多选框"],
+                
+                                ]);
+                
+                                foreach ($ziduans as $k => $v) {
+                
+                                    $ziduan = $v["ziduan"];
+                
+                                    if ($r[$ziduan]) {
+                
+                                        $zizus = explode(",", $r[$ziduan]);
+                
+                                        $shuzus = [];
+                
+                                        foreach ($zizus as $k1 => $v1) {
+                                            $shuzus[] = (int)$v1;
+                                        }
+                
+                                        $r[$ziduan] = $shuzus;
+                                    }
+                                }
+                
+                
+                                // 查询当前标的多选框字段
+                                $ziduans  = Tool::cha("yuanhou_ziduan", [
+                                    ["isdel", "=", 0],
+                                    ["biao", "=", $ziduanbiao],
+                                    ["lx", "=", "多选"],
+                
+                                ]);
+                
+                                foreach ($ziduans as $k => $v) {
+                
+                                    $ziduan = $v["ziduan"];
+                
+                                    if ($r[$ziduan]) {
+                
+                                        $zizus = explode(",", $r[$ziduan]);
+                
+                                        $shuzus = [];
+                
+                                        foreach ($zizus as $k1 => $v1) {
+                                            $shuzus[] = $v1;
+                                        }
+                
+                                        $r[$ziduan] = $shuzus;
+                                    }
+                                }
+                
+                                return json(fan_ok(["msg" => "查询成功", "data" => $r]));
+                            } else {
+                
+                                return json(fan_fail(["msg" => "查询失败"]));
+                            }
+                        } else if ($lx == "del") {
+                            $id = $request->param("id");
+                            // 删除
+                            $del = Tool::del($biao, $id);
+                
+                            if ($del) {
+                                return json(fan_ok(["msg" => "删除成功"]));
+                            } else {
+                                return json(fan_fail(["msg" => "删除失败"]));
+                            }
+                        } else if ($lx == "add") {
+                
+                            // 新增
+                            $data = $request->param("data");
+                            $ziduanbiao = str_replace("yuanhou_", "", $biao);
+                            // 查询当前标的多选框字段
+                            $ziduans  = Tool::cha("yuanhou_ziduan", [
+                                ["isdel", "=", 0],
+                                ["biao", "=", $ziduanbiao],
+                
+                                ["lx", "in", ["图片", "列表值", "附件"]],
+                            ]);
+                
+                
+                            foreach ($ziduans as $k => $v) {
+                                $ziduan = $v["ziduan"];
+                
+                                $ziduan = $v["ziduan"];
+                
+                
+                                if (isset($data[$ziduan])) {
+                                    $data[$ziduan] = json_encode($data[$ziduan]);
+                                }
+                            }
+                            // 查询当前标的多选框字段
+                            $ziduans = Tool::cha("yuanhou_ziduan", [
+                                ["isdel", "=", 0],
+                                ["biao", "=", $ziduanbiao],
+                                ["lx", "in", ["多选框", "多选"]],
+                
+                
+                            ]);
+                
+                
+                
+                
+                            foreach ($ziduans as $k => $v) {
+                
+                                $ziduan = $v["ziduan"];
+                
+                
+                                if (isset($data[$ziduan])) {
+                                    $data[$ziduan] = implode(",", $data[$ziduan]);
+                                }
+                            }
+                
+                            $data["intime"] = xianzai();
+                            $data["uptime"] = xianzai();
+                
+                            // 这里对图片进行处理
+                            if (isset($data["pics"])) {
+                                $pics = $data["pics"];
+                                $data["pics"] = json_encode($pics);
+                            }
+                
+                            $in = Db::name($biao)->insert($data);
+                
+                            if ($in) {
+                                return json(fan_ok(["msg" => "添加成功"]));
+                            } else {
+                                return json(fan_fail(["msg" => "添加失败"]));
+                            }
+                        } else if ($lx == "edit") {
+                            // 编辑
+                            $data = $request->param("data");
+                            $data["uptime"] = xianzai();
+                            $ziduanbiao = str_replace("yuanhou_", "", $biao);
+                            // 查询当前标的多选框字段
+                
+                
+                
+                            $ziduans = Tool::cha("yuanhou_ziduan", [
+                                ["isdel", "=", 0],
+                                ["biao", "=", $ziduanbiao],
+                                ["lx", "in", ["图片", "列表值", "附件"]],
+                
+                            ]);
+                
+                
+                
+                
+                
+                            foreach ($ziduans as $k => $v) {
+                                $ziduan = $v["ziduan"];
+                
+                                $ziduan = $v["ziduan"];
+                
+                
+                                if (isset($data[$ziduan])) {
+                                    $data[$ziduan] = json_encode($data[$ziduan]);
+                                }
+                            }
+                            // 查询当前标的多选框字段
+                
+                
+                            $ziduans = Tool::cha("yuanhou_ziduan", [
+                                ["isdel", "=", 0],
+                                ["biao", "=", $ziduanbiao],
+                                ["lx", "in", ["多选框", "多选"]],
+                            ]);
+                            foreach ($ziduans as $k => $v) {
+                
+                                $ziduan = $v["ziduan"];
+                
+                
+                                if (isset($data[$ziduan])) {
+                                    $data[$ziduan] = implode(",", $data[$ziduan]);
+                                }
+                            }
+                            $id = $request->param("id");
+                            // 这里对图片进行处理
+                            if (isset($data["pics"])) {
+                                $pics = $data["pics"];
+                                $data["pics"] = json_encode($pics);
+                            }
+                
+                            $up = Tool::update($biao, $id, $data);
+                
+                
+                            if ($up) {
+                                return json(fan_ok(["msg" => "更新成功"]));
+                            } else {
+                                return json(fan_fail(["msg" => "更新失败"]));
+                            }
+                        } else if ($lx == "dels") {
+                
+                            $ids = $request->param("ids");
+                            // var_dump($ids);
+                
+                            $up = Db::table($biao)->where([
+                                ["isdel", "=", 0],
+                                ["id", "in", $ids],
+                            ])->update(
+                                ["isdel" => 1]
+                            );
+                            if ($up) {
+                                return json(fan_ok(["msg" => "删除成功"]));
+                            } else {
+                                return json(fan_fail(["msg" => "删除失败"]));
+                            }
+                        } else if ($lx == "getlanmuall") {
+                
+                            $jieguo =  Tool::getMenuAll($biao);
+                
+                            return json(fan_ok(["msg" => "查询成功", "list" => $jieguo]));
+                        } else if ($lx == "copy") {
+                
+                            $id = $request->param("id");
+                            $r = Db::table($biao)->where([
+                                ["isdel", "=", 0],
+                                ["id", "=", $id],
+                            ])->find();
+                
+                
+                            unset($r["id"]);
+                
+                            $r["intime"] = Tool::xianzai();
+                
+                            $r["uptime"] = Tool::xianzai();
+                
+                            $in = Db::name($biao)->insert($r);
+                
+                            if ($in) {
+                                return json(fan_ok(["msg" => "复制成功"]));
+                            } else {
+                                return json(fan_fail(["msg" => "复制失败"]));
+                            }
+                        }
+                    }
+                }
+                ';
+
+
+                $lujing = CONTROLLER . '/' . $classname . '.php';
+
+                try {
+
+                    $nei = file_get_contents($lujing);
+
+                    return json(fan_fail(['msg' => '已经存在文件']));
+                } catch (\Exception $e) {
+
+                    file_put_contents($lujing, $str);
+                }
+
+
+                // +++
+
 
                 return json(fan_ok(['msg' => '添加成功']));
             } else {
