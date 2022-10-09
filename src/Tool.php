@@ -782,7 +782,6 @@ class Tool
                     $list2 =  Db::table($biao)->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
 
 
-                    // var_dump($list2);    
 
 
                     $list1[$k1]['list'] = $list2;
@@ -792,10 +791,6 @@ class Tool
 
                 $list[$k]['list'] = $list1;
             }
-
-
-
-
 
 
 
@@ -1812,18 +1807,38 @@ class Tool
             $list = $shuju->items();
 
             // 查询子栏目
+            // 查询子栏目
             foreach ($list as $k => $v) {
 
                 $tiaojian1 = [];
 
-
                 if (isset($biaoshi) && $biaoshi) {
-
                     $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
                 }
 
+                $list1 =  Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
 
-                $list[$k]['list'] = Db::table('yuanhou_navhou')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select();
+
+
+                foreach ($list1 as $k1 => $v1) {
+
+                    $tiaojian2 = [];
+
+                    if (isset($biaoshi) && $biaoshi) {
+                        $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+                    }
+
+                    $list2 =  Db::table($biao)->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
+
+
+
+
+                    $list1[$k1]['list'] = $list2;
+                }
+
+
+
+                $list[$k]['list'] = $list1;
             }
 
             // var_dump($ziduan);
