@@ -882,7 +882,7 @@ class Tool
                         `xiangxi` varchar(255) DEFAULT NULL,
                         `tpl` varchar(255) DEFAULT NULL,
                         `content` longtext,
-                        
+                        `adminid` int DEFAULT '0',
                         `isdel` int DEFAULT '0',
                         `pId` int DEFAULT '0',
                         `intime` datetime DEFAULT NULL,
@@ -890,8 +890,6 @@ class Tool
                         `uptime` datetime DEFAULT NULL,
                         PRIMARY KEY (`id`) USING BTREE
                         ) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb3 ROW_FORMAT=COMPACT;";
-
-
                     Db::query($sql2);
                 }
 
@@ -930,12 +928,7 @@ class Tool
         } else if ($lx == 'getlanmuall') {
 
             // var_dump('121212');
-
-
-
             $jieguo =  self::getMenuAll1();
-
-
             return json(fan_ok(['msg' => '查询成功', 'list' => $jieguo]));
         } else if ($lx == 'getlie') {
             $biao = $request->param('biao');
@@ -951,11 +944,6 @@ class Tool
                 ['id', '=', $fuid],
 
             ])->find();
-
-
-
-
-
 
 
 
