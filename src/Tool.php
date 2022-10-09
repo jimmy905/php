@@ -1142,6 +1142,9 @@ class Tool
                 } else if ($lx == '图片') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
                     Db::execute($sql);
+                } else if ($lx == '附件') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
+                    Db::execute($sql);
                 } else if ($lx == '编辑器') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " longtext DEFAULT " . $moren;
                     Db::execute($sql);
@@ -1195,8 +1198,18 @@ class Tool
 
 
                     // $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . "'" . $moren . "'";
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text DEFAULT " . $moren;
 
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+
+
+
+
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " text  " . $zifu;
 
 
 
