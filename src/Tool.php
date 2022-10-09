@@ -1823,47 +1823,50 @@ class Tool
 
 
 
+            $tiaojian1 = [];
 
-
-            $nav1  = Tool::getDigui('yuanhou_navhou');
-
-
-
-
-
-
-            foreach ($list as $k => $v) {
-
-                $tiaojian1 = [];
-
-                if (isset($biaoshi) && $biaoshi) {
-                    $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
-
-                $list1 =  Db::table('yuanhou_navhou')->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
-
-
-
-                foreach ($list1 as $k1 => $v1) {
-
-                    $tiaojian2 = [];
-
-                    if (isset($biaoshi) && $biaoshi) {
-                        $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                    }
-
-                    $list2 =  Db::table('yuanhou_navhou')->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
-
-
-
-
-                    $list1[$k1]['list'] = $list2;
-                }
-
-
-
-                $list[$k]['list'] = $list1;
+            if (isset($biaoshi) && $biaoshi) {
+                $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
             }
+
+
+            $nav1  = Tool::getDigui('yuanhou_navhou', $tiaojian1, 'paixu desc');
+
+
+
+
+            // foreach ($list as $k => $v) {
+
+            //     $tiaojian1 = [];
+
+            //     if (isset($biaoshi) && $biaoshi) {
+            //         $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            //     }
+
+            //     $list1 =  Db::table('yuanhou_navhou')->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
+
+
+
+            //     foreach ($list1 as $k1 => $v1) {
+
+            //         $tiaojian2 = [];
+
+            //         if (isset($biaoshi) && $biaoshi) {
+            //             $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            //         }
+
+            //         $list2 =  Db::table('yuanhou_navhou')->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
+
+
+
+
+            //         $list1[$k1]['list'] = $list2;
+            //     }
+
+
+
+            //     $list[$k]['list'] = $list1;
+            // }
 
 
 
@@ -1874,7 +1877,7 @@ class Tool
             // var_dump($list);
 
 
-            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $list, 'nav1' => $nav1]));
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1]));
         }
     }
 
@@ -1966,13 +1969,17 @@ class Tool
     }
 
     // 递归处理
-    static public function getDigui($biao = 'yuanhou_lanmu')
+    static public function getDigui($biao = 'yuanhou_lanmu', $tiaojian = [], $paixu = 'paixu desc')
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
         $ls = Db::table($biao)->where([
             ['isdel', '=', 0],
-        ])->select()->toArray();
+        ])->order($paixu)->where($tiaojian)->select()->toArray();
+
+
+
+
         foreach ($ls as $k => $v) {
 
             // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
