@@ -918,6 +918,10 @@ class Tool
                         $biao .= "' . $classname . '";
                 
                         $biao = strtolower($biao);
+
+
+                        $jsonshuzu = ["图片", "列表值", "附件", "约束选择框"];
+
                 
                         $lx = $request->param("lx");
                         if ($lx == "getlist") {
@@ -954,9 +958,7 @@ class Tool
                                 $ziduans = Tool::cha("yuanhou_ziduan", [
                                     ["isdel", "=", 0],
                                     ["biao", "=", $ziduanbiao],
-                
-                
-                                    ["lx", "in", ["图片", "列表值", "附件"]],
+                                    ["lx", "in", $jsonshuzu],
                                 ]);
                 
                                 foreach ($ziduans as $k => $v) {
@@ -1045,7 +1047,7 @@ class Tool
                                 ["isdel", "=", 0],
                                 ["biao", "=", $ziduanbiao],
                 
-                                ["lx", "in", ["图片", "列表值", "附件"]],
+                                ["lx", "in", $jsonshuzu],
                             ]);
                 
                 
@@ -1109,7 +1111,7 @@ class Tool
                             $ziduans = Tool::cha("yuanhou_ziduan", [
                                 ["isdel", "=", 0],
                                 ["biao", "=", $ziduanbiao],
-                                ["lx", "in", ["图片", "列表值", "附件"]],
+                                ["lx", "in", $jsonshuzu],
                 
                             ]);
                 
@@ -1128,7 +1130,7 @@ class Tool
                                 }
                             }
                             // 查询当前标的多选框字段
-                
+                            
                 
                             $ziduans = Tool::cha("yuanhou_ziduan", [
                                 ["isdel", "=", 0],
