@@ -1456,8 +1456,18 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '多选框') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . $moren;
 
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+
+
+
+
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(500)  " . $zifu;
 
                     Db::execute($sql);
                 } else if ($lx == '图片') {
