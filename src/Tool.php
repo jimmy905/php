@@ -746,6 +746,14 @@ class Tool
 
 
             $tiaojian[] = ['pId', '=', '0'];
+            $tiaojian1 = [];
+
+            if (isset($biaoshi) && $biaoshi) {
+                $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            }
+
+            $navs = Tool::getDigui('yuanhou_navhou', $tiaojian1, 'paixu desc');
+
 
 
             // 获取列表
@@ -759,38 +767,38 @@ class Tool
             $list = $shuju->items();
 
             // 查询子栏目
-            foreach ($list as $k => $v) {
+            // foreach ($list as $k => $v) {
 
-                $tiaojian1 = [];
+            //     $tiaojian1 = [];
 
-                if (isset($biaoshi) && $biaoshi) {
-                    $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                }
+            //     if (isset($biaoshi) && $biaoshi) {
+            //         $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            //     }
 
-                $list1 =  Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
-
-
-
-                foreach ($list1 as $k1 => $v1) {
-
-                    $tiaojian2 = [];
-
-                    if (isset($biaoshi) && $biaoshi) {
-                        $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
-                    }
-
-                    $list2 =  Db::table($biao)->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
+            //     $list1 =  Db::table($biao)->order('paixu desc')->where('pId', $v['id'])->where($tiaojian1)->where('isdel', '0')->select()->toArray();
 
 
 
+            //     foreach ($list1 as $k1 => $v1) {
 
-                    $list1[$k1]['list'] = $list2;
-                }
+            //         $tiaojian2 = [];
+
+            //         if (isset($biaoshi) && $biaoshi) {
+            //             $tiaojian2[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            //         }
+
+            //         $list2 =  Db::table($biao)->order('paixu desc')->where('pId', $v1['id'])->where($tiaojian2)->where('isdel', '0')->select()->toArray();
 
 
 
-                $list[$k]['list'] = $list1;
-            }
+
+            //         $list1[$k1]['list'] = $list2;
+            //     }
+
+
+
+            //     $list[$k]['list'] = $list1;
+            // }
 
 
 
@@ -801,7 +809,7 @@ class Tool
                 'total' => $shuju->total(),
             ];
             // $fanhui = $this->good(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]);
-            return json(fan_ok(['msg' => '查询成功', 'list' => $list, 'fenset' => $fenset]));
+            return json(fan_ok(['msg' => '查询成功', 'list' => $navs, 'fenset' => $fenset]));
         } else if ($lx == 'get') {
             $id = $request->param('id');
             // 查看详情
