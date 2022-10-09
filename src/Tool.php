@@ -1476,7 +1476,7 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " longtext DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '约束选择框') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . $moren;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000) DEFAULT " . $moren;
                     Db::execute($sql);
                 } else if ($lx == '单选') {
 
@@ -1966,6 +1966,7 @@ class Tool
 
             // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
             $ls[$k]['label'] = $v['name'];
+            $ls[$k]['value'] = $v['id'];
         }
 
 
