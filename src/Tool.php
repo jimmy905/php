@@ -2066,7 +2066,17 @@ class Tool
     }
 
 
+    // 获取随机数字
+    static public function getRandCode($num = 4)
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
+        if ($num == 4) {
+            return rand(1000, 9999);
+        } else if ($num == 6) {
+            return rand(100000, 999999);
+        }
+    }
 
     static public function getMenuAlllanmu()
     {
