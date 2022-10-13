@@ -718,7 +718,11 @@ class Tool
                 if ($lx == "getlist") {
                     $tiaojian = [];
                     $keyword = $request->param("keyword");
-        
+
+                    $pid = $request->param("pid");
+                    if ($pid) {
+                        $tiaojian[] = ["pId", "=", $pid];
+                    }
                     if ($keyword) {
         
                         $tiaojian[] = ["name|id", "like", "%" . $keyword . "%"];
