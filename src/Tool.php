@@ -489,10 +489,17 @@ class Tool
 
 
     // httpsget请求
-    static function curlGet($url)
+    static function curlGet($url, $header = null)
     {
 
-        //初始化
+        $headers = array(
+
+            "Content-Type: application/json",
+            "Accept: application/json",
+
+        );
+
+        //初始化    
         $ch = curl_init();
 
         //设置选项，包括URL
@@ -503,6 +510,14 @@ class Tool
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, '0');
         #禁止 cURL 验证对等证书（peer's certificate）。要验证的交换证书可以在 CURLOPT_CAINFO 选项中设置
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, '0');
+
+
+        //设置header头  
+
+        if (!empty($header)) {
+
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        }
 
 
 
