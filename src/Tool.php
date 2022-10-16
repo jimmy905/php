@@ -829,6 +829,8 @@ class Tool
                                 }
         
                                 $r[$ziduan] = $shuzus;
+                            }else {
+                                $r[$ziduan] = [];
                             }
                         }
         
