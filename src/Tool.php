@@ -1696,6 +1696,10 @@ class Tool
                 $data['pics'] = json_encode($pics);
             }
 
+            if (isset($data['xuanxiang'])) {
+                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            }
+
             $up = Db::name($biao)->where('id', $id)->update($data);
 
             if ($up) {
