@@ -1432,6 +1432,11 @@ class Tool
             // 查看详情
             $r = Db::name($biao)->where('id', $id)->find();
             if ($r) {
+                if ($r['xuanxiang']) {
+                    $r['xuanxiang'] = json_decode($r['xuanxiang'], true);
+                }
+
+
 
                 return json(fan_ok(['msg' => '查询成功', 'data' => $r]));
             } else {
