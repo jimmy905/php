@@ -62,11 +62,13 @@ class Tool
 
 
     // 搜索转条件
-    static function soulitToArray($soulist)
+    static function soulistToArray($soulist)
     {
         // 提取111
 
         $tiaojian = [];
+
+
 
 
         foreach ($soulist as $key => $value) {
