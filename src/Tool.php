@@ -68,24 +68,29 @@ class Tool
 
         $tiaojian = [];
 
-
-
-
         foreach ($soulist as $key => $value) {
 
             $ziduan = $value["ziduan"];
             $zhi = $value["zhi"];
             $fuhao = $value["fuhao"];
 
-            if ($fuhao == '') {
-                $fuhao = '=';
+            if ($zhi) {
+                if ($fuhao == '') {
+                    $fuhao = '=';
+                }
+
+
+
+
+                if ($fuhao == "like") {
+                    $tiaojian[] = [$ziduan, $fuhao, "%" . $zhi . "%"];
+                } else {
+                    $tiaojian[] = [$ziduan, $fuhao, $zhi];
+                }
             }
 
-            if ($fuhao == "like") {
-                $tiaojian[] = [$ziduan, $fuhao, "%" . $zhi . "%"];
-            } else {
-                $tiaojian[] = [$ziduan, $fuhao, $zhi];
-            }
+
+
             // $tiaojian[] = [$key, "like", "%" . $value . "%"];
         }
 
@@ -769,7 +774,7 @@ class Tool
                     $soulist = $request->param("soulist") ? $request->param("soulist") : [];
                     $souzu = Tool::soulistToArray($soulist);
                     $tiaojian = array_merge($tiaojian, $souzu);
-                    
+
 
                     $pid = $request->param("pid");
                     if ($pid) {
