@@ -61,6 +61,36 @@ class Tool
     }
 
 
+    // 搜索转条件
+    static function soulitToArray($soulist)
+    {
+        // 提取111
+
+        $tiaojian = [];
+
+
+        foreach ($soulist as $key => $value) {
+
+            $ziduan = $value["ziduan"];
+            $zhi = $value["zhi"];
+            $fuhao = $value["fuhao"];
+
+            if ($fuhao == '') {
+                $fuhao = '=';
+            }
+
+            if ($fuhao == "like") {
+                $tiaojian[] = [$ziduan, $fuhao, "%" . $zhi . "%"];
+            } else {
+                $tiaojian[] = [$ziduan, $fuhao, $zhi];
+            }
+            // $tiaojian[] = [$key, "like", "%" . $value . "%"];
+        }
+
+        return $tiaojian;
+    }
+
+
     // 获取会员
     static function gethuiyuan(Request $request)
     {
