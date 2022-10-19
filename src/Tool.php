@@ -2018,8 +2018,16 @@ class Tool
 
             // var_dump($list);
 
+            // 查询搜索数据
+            $sous = Db::table('yuanhou_sou')->where([
+                ['isdel', '=', 0],
+            ])->select()->toArray();
 
-            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1]));
+
+
+
+
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1, 'sous' => $sous]));
         }
     }
 
