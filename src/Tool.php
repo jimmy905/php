@@ -766,6 +766,11 @@ class Tool
                     $tiaojian = [];
                     $keyword = $request->param("keyword");
 
+                    $soulist = $request->param("soulist") ? $request->param("soulist") : [];
+                    $souzu = Tool::soulistToArray($soulist);
+                    $tiaojian = array_merge($tiaojian, $souzu);
+                    
+
                     $pid = $request->param("pid");
                     if ($pid) {
                         $tiaojian[] = ["pId", "=", $pid];
