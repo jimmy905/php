@@ -1426,6 +1426,13 @@ class Tool
 
 
             return json(fan_ok(['msg' => '查询成功', 'list' => $ls, 'shangmian' => $r]));
+        } else if ($lx == 'getguanlian') {
+
+            $ls = Db::table('yuanhou_navhou')->where([
+                ['isdel', '=', 0],
+                ['isguanlian', '=', 1],
+            ])->select()->toArray();
+            return json(fan_ok(['msg' => '查询成功', 'list' => $ls]));
         }
     }
 
