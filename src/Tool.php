@@ -1854,31 +1854,37 @@ class Tool
 
                 $lx = $v['lx'];
                 $guanlianbiao = $v['guanlianbiao'];
-                if (
-                    $lx == '约束选择框'
-                ) {
 
-                    $jieguo = Tool::getMenuAll('yuanhou_' . $guanlianbiao);
-                    $zuzu[$guanlianbiao] = $jieguo;
-                } else {
+                if ($guanlianbiao) {
+                    if (
+                        $lx == '约束选择框'
+                    ) {
 
-
-                    $biaoming = 'yuanhou_' . $guanlianbiao;
-
-                    // var_dump($biaoming);
+                        $jieguo = Tool::getMenuAll('yuanhou_' . $guanlianbiao);
+                        $zuzu[$guanlianbiao] = $jieguo;
+                    } else {
 
 
-                    // 查询当前关联表
-                    $ls2 = Db::table($biaoming)->where([
-                        ['isdel', '=', 0],
+                        $biaoming = 'yuanhou_' . $guanlianbiao;
 
-                    ])->select()->toArray();
+                        // var_dump($biaoming);
 
 
+                        // 查询当前关联表
+                        $ls2 = Db::table($biaoming)->where([
+                            ['isdel', '=', 0],
+
+                        ])->select()->toArray();
 
 
-                    $zuzu[$guanlianbiao] = $ls2;
+
+
+                        $zuzu[$guanlianbiao] = $ls2;
+                    }
                 }
+
+
+
 
 
 
