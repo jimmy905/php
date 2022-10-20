@@ -1822,6 +1822,17 @@ class Tool
             } else {
                 return json(fan_fail(['msg' => '更新失败']));
             }
+        } else if ($lx == 'listpaixu') {
+            $id = $request->param('id');
+            $paixu = $request->param('listpaixu');
+            // 更新排序
+            $up = Db::table('yuanhou_ziduan')->where('id', $id)->update(['listpaixu' => $paixu]);
+
+            if ($up) {
+                return json(fan_ok(['msg' => '更新成功']));
+            } else {
+                return json(fan_fail(['msg' => '更新失败']));
+            }
         } else if ($lx == 'getguanlian') {
             $biao = $request->param('biao');
 
