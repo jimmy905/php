@@ -1916,25 +1916,21 @@ class Tool
 
                 $guanlianbiao = $v['guanlianbiao'];
 
-                $biaoming = 'yuanhou_' . $guanlianbiao;
 
-                // var_dump($biaoming);
+                if ($guanlianbiao) {
+                    $biaoming = 'yuanhou_' . $guanlianbiao;
 
-
-                // 查询当前关联表
-                $ls2 = Db::table($biaoming)->where([
-                    ['isdel', '=', 0],
-
-                ])->select()->toArray();
+                    // var_dump($biaoming);
 
 
+                    // 查询当前关联表
+                    $ls2 = Db::table($biaoming)->where([
+                        ['isdel', '=', 0],
 
+                    ])->select()->toArray();
 
-                $zuzu[$guanlianbiao] = $ls2;
-
-
-
-
+                    $zuzu[$guanlianbiao] = $ls2;
+                }
 
                 // var_dump($guanlianbiao);
             }
