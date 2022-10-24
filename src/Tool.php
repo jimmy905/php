@@ -1023,8 +1023,13 @@ class Tool
                         return json(fan_fail(["msg" => "删除失败"]));
                     }
                 } else if ($lx == "getlanmuall") {
+                    $soulist = $request->param("soulist");
+                    $tiaojian = [];
+                    $soulist = $request->param("soulist") ? $request->param("soulist") : [];
+                    $souzu = Tool::soulistToArray($soulist);
+                    $tiaojian = array_merge($tiaojian, $souzu);
         
-                    $jieguo =  Tool::getMenuAll($biao);
+                    $jieguo =  Tool::getMenuAll($biao,$tiaojian);
         
                     return json(fan_ok(["msg" => "查询成功", "list" => $jieguo]));
                 } else if ($lx == "copy") {
@@ -2159,13 +2164,20 @@ class Tool
 
 
 
-    static public function getMenuAll($biao = 'yuanhou_lanmu')
+    static public function getMenuAll($biao = 'yuanhou_lanmu', $tiaojian = null)
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
+
+        $tiaojian1 = [];
+        if ($tiaojian) {
+            $tiaojian1 = $tiaojian;
+        }
+
+
         $ls = Db::table($biao)->where([
             ['isdel', '=', 0],
-        ])->select()->toArray();
+        ])->where($tiaojian1)->select()->toArray();
         foreach ($ls as $k => $v) {
 
             // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
