@@ -1206,6 +1206,19 @@ class Tool
             $r = Db::name($biao)->where('id', $id)->find();
             if ($r) {
 
+                // 这里处理juesexuan
+                $juesexuan = $r['juesexuan'];
+
+                if ($juesexuan) {
+                    $juesexuan = json_decode($juesexuan, true);
+                } else {
+                    $juesexuan = [];
+                }
+
+
+                $r['juesexuan'] = $juesexuan;
+
+
                 return json(fan_ok(['msg' => '查询成功', 'data' => $r]));
             } else {
 
