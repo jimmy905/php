@@ -2118,7 +2118,13 @@ class Tool
 
 
 
-            return json(fan_ok(['msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1, 'sous' => $sous]));
+            return json(fan_ok([
+                'msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1, 'sous' => $sous,
+
+                'juese' => $juese,
+
+                'admin' => $admin
+            ]));
         }
     }
 
