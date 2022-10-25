@@ -1379,8 +1379,19 @@ class Tool
             }
         } else if ($lx == 'getlanmuall') {
 
+
+
+            $quanxian = $request->param('quanxian') ?: '';
+            $jueseid = $request->param('jueseid') ?: '';
+
+
+
+            $admin = self::getAdmin($request);
+
+
+
             // var_dump('121212');
-            $jieguo =  self::getMenuAll1();
+            $jieguo =  self::getMenuAll1($quanxian, $admin, $jueseid);
             return json(fan_ok(['msg' => '查询成功', 'list' => $jieguo]));
         } else if ($lx == 'getlie') {
             $biao = $request->param('biao');
@@ -2260,14 +2271,67 @@ class Tool
 
 
 
-    static public function getMenuAll1()
+
+    static public function getMenuAll1($quanxian = '', $admin = null, $jueseid = '')
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
         $ls = Db::table('yuanhou_navhou')->where([
             ['isdel', '=', 0],
         ])->order('paixu desc')->select()->toArray();
+
+        if ($quanxian == 1) {
+
+            // 查询角色
+            $juese = Db::table('yuanhou_juese')->where([
+                ['id', '=', $jueseid],
+                ['isdel', '=', 0],
+            ])->find();
+
+
+            $danyequanxians = $juese['danyequanxians'];
+
+
+
+
+            $danyequanxians = json_decode($danyequanxians, true);
+        }
+
+
+
+
         foreach ($ls as $k => $v) {
+
+            $id = $v['id'];
+
+
+            // var_dump($v);
+
+
+
+
+            if ($quanxian == 1 && $danyequanxians) {
+
+
+
+
+
+                foreach ($danyequanxians as $k1 => $v1) {
+                    if ($v1['id'] == $id) {
+
+                        $ls[$k]['zeng'] = $v1['zeng'];
+                        $ls[$k]['shan'] = $v1['shan'];
+                        $ls[$k]['gai'] = $v1['gai'];
+                        $ls[$k]['cha'] = $v1['cha'];
+
+
+                        // $v['shang'] = $v1['shang'];
+                    }
+                }
+            }
+
+
+
 
 
 
