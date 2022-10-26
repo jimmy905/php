@@ -1118,17 +1118,6 @@ class Tool
                 // var_dump($biaoshi);
             }
 
-
-
-
-
-
-
-
-
-
-
-
             $pId = $request->param('pId');
 
 
@@ -2282,9 +2271,8 @@ class Tool
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
-        $ls = Db::table('yuanhou_navhou')->where([
-            ['isdel', '=', 0],
-        ])->order('paixu desc')->select()->toArray();
+        $tiaojian = [];
+
 
         if ($quanxian == 1) {
 
@@ -2295,13 +2283,22 @@ class Tool
             ])->find();
 
 
+            $biaoshi  = $juese['biaoshi'];
+
+            $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            $tiaojian[] = ['xianshi', '=', 1];
+
             $danyequanxians = $juese['danyequanxians'];
-
-
-
 
             $danyequanxians = json_decode($danyequanxians, true);
         }
+
+
+        $ls = Db::table('yuanhou_navhou')->where([
+            ['isdel', '=', 0],
+        ])->where($tiaojian)->order('paixu desc')->select()->toArray();
+
+
 
 
 
