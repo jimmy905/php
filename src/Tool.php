@@ -2285,7 +2285,7 @@ class Tool
 
             $biaoshi  = $juese['biaoshi'];
 
-            $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            // $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
             $tiaojian[] = ['xianshi', '=', 1];
 
             $danyequanxians = $juese['danyequanxians'];
