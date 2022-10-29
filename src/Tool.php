@@ -1625,9 +1625,6 @@ class Tool
                     }
 
 
-
-
-
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(500)  " . $zifu;
 
                     Db::execute($sql);
@@ -1665,6 +1662,14 @@ class Tool
                         $zifu = "DEFAULT '" . $moren . "'";
                     }
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000)  " . $zifu;
+                    Db::execute($sql);
+                } else if ($lx == '树形选择器') {
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11)  " . $zifu;
                     Db::execute($sql);
                 } else if ($lx == '单选') {
 
@@ -1867,17 +1872,15 @@ class Tool
 
 
             foreach ($ls as $k => $v) {
-
-
-
                 $lx = $v['lx'];
                 $guanlianbiao = $v['guanlianbiao'];
 
                 if ($guanlianbiao) {
-                    if (
-                        $lx == '约束选择框'
-                    ) {
+                    if ($lx == '约束选择框') {
 
+                        $jieguo = Tool::getMenuAll('yuanhou_' . $guanlianbiao);
+                        $zuzu[$guanlianbiao] = $jieguo;
+                    } else if ($lx == '树形选择器') {
                         $jieguo = Tool::getMenuAll('yuanhou_' . $guanlianbiao);
                         $zuzu[$guanlianbiao] = $jieguo;
                     } else {
@@ -2020,9 +2023,6 @@ class Tool
                 ['isdel', '=', 0],
                 ['pId', '>', 0],
             ])->field('id,biao,name')->select()->toArray();
-
-
-
 
 
             return json(fan_ok([
