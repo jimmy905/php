@@ -2019,10 +2019,14 @@ class Tool
             ])->select()->toArray();
 
             // 查询navhou的所有表
+            // $navhoubiaos = Db::table('yuanhou_navhou')->where([
+            //     ['isdel', '=', 0],
+            //     ['pId', '>', 0],
+            // ])->field('id,biao,name')->select()->toArray();
             $navhoubiaos = Db::table('yuanhou_navhou')->where([
                 ['isdel', '=', 0],
                 ['pId', '>', 0],
-            ])->field('id,biao,name')->select()->toArray();
+            ])->select()->toArray();
 
 
             return json(fan_ok([
