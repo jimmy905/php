@@ -751,6 +751,9 @@ class Tool
     static function createTpl($biaohou)
     {
         $classname = $biaohou;
+        $xiaoxie = strtolower($biaohou);
+
+
         $str = '<?php
         namespace app\controller;
         use app\BaseController;
@@ -765,9 +768,8 @@ class Tool
             {
                 $biao = "yuanhou_";
         
-                $biao .= "' . $classname . '";
+                $biao .= "' . $xiaoxie . '";
         
-                $biao = strtolower($biao);
 
 
                 $jsonshuzu = Tool::getJsonZhuanArray();
