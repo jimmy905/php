@@ -1661,7 +1661,17 @@ class Tool
                     if ($moren) {
                         $zifu = "DEFAULT '" . $moren . "'";
                     }
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000)  " . $zifu;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(1000)  " . $zifu;
+                    Db::execute($sql);
+                } else if ($lx == '地区') {
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(500)  " . $zifu;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . 'id' . " int(11)  " . $zifu;
+
                     Db::execute($sql);
                 } else if ($lx == '树形选择器') {
                     $zifu = '';
@@ -1679,7 +1689,7 @@ class Tool
                     if ($moren) {
                         $zifu = "DEFAULT '" . $moren . "'";
                     }
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(5000)  " . $zifu;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(1000)  " . $zifu;
 
 
                     Db::execute($sql);
