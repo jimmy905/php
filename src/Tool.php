@@ -738,6 +738,13 @@ class Tool
     }
 
 
+    static function getJsonZhuanArray()
+    {
+
+        return ["图片", "列表值", "附件", "约束选择框", "地区"];
+    }
+
+
 
 
     // 创建模板
@@ -763,7 +770,7 @@ class Tool
                 $biao = strtolower($biao);
 
 
-                $jsonshuzu = ["图片", "列表值", "附件", "约束选择框"];
+                $jsonshuzu = Tool::getJsonZhuanArray();
 
         
                 $lx = $request->param("lx");
