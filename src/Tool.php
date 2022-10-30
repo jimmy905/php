@@ -1676,8 +1676,6 @@ class Tool
 
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . 'id' . " int(11)  " . $zifu;
 
-
-
                     Db::execute($sql);
                 } else if ($lx == '树形选择器') {
                     $zifu = '';
