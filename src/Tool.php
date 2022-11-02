@@ -1824,6 +1824,31 @@ class Tool
                 $data['xuanxiang'] = json_encode($data['xuanxiang']);
             }
 
+            $jsonshuzu = self::getJsonZhuanArray();
+
+            // 查询当前标的多选框字段
+
+            $ziduans = Tool::cha("yuanhou_ziduan", [
+                ["isdel", "=", 0],
+                ["biao", "=", 'ziduan'],
+                ["lx", "in", $jsonshuzu],
+
+            ]);
+
+            foreach ($ziduans as $k => $v) {
+                $ziduan = $v["ziduan"];
+
+                $ziduan = $v["ziduan"];
+
+
+                if (isset($data[$ziduan])) {
+                    $data[$ziduan] = json_encode($data[$ziduan]);
+                }
+            }
+
+
+
+
             $up = Db::name($biao)->where('id', $id)->update($data);
 
             if ($up) {
