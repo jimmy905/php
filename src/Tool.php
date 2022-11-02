@@ -74,23 +74,25 @@ class Tool
             $zhi = $value["zhi"];
             $fuhao = $value["fuhao"];
 
-            $type = $value["type"];
+
+            if (isset($value['type'])) {
 
 
+                $type = $value["type"];
 
+                if ($type == '约束选择框') {
 
+                    // 如果是数组
+                    if (is_array($zhi)) {
 
+                        $zuihou  = $zhi[count($zhi) - 1];
 
-            if ($type == '约束选择框') {
-
-                // 如果是数组
-                if (is_array($zhi)) {
-
-                    $zuihou  = $zhi[count($zhi) - 1];
-
-                    $zhi = $zuihou;
+                        $zhi = $zuihou;
+                    }
                 }
             }
+
+
 
 
 
