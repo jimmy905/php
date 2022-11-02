@@ -1530,8 +1530,23 @@ class Tool
             // 查看详情
             $r = Db::name($biao)->where('id', $id)->find();
             if ($r) {
-                if ($r['xuanxiang']) {
-                    $r['xuanxiang'] = json_decode($r['xuanxiang'], true);
+
+                $jsonshuzu = self::getJsonZhuanArray();
+
+                // 查询当前标的多选框字段
+                $ziduans = Tool::cha("yuanhou_ziduan", [
+                    ["isdel", "=", 0],
+                    ["biao", "=", 'ziduan'],
+                    ["lx", "in", $jsonshuzu],
+                ]);
+
+                foreach ($ziduans as $k => $v) {
+
+                    $ziduan = $v["ziduan"];
+
+                    if ($r[$ziduan]) {
+                        $r[$ziduan] = json_decode($r[$ziduan], true);
+                    }
                 }
 
 
