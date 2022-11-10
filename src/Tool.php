@@ -1131,13 +1131,13 @@ class Tool
             $tiaojian = [];
 
 
-            $biaoshi = $request->param('biaoshi');
-            if ($biaoshi) {
-                if ($biaoshi == 'all') {
+            $xitong = $request->param('xitong');
+            if ($xitong) {
+                if ($xitong == 'all') {
                     // $tiaojian[] = ['isdel', '=', 0];
                 } else {
 
-                    $tiaojian[] = ['biaoshi', '=', $biaoshi];
+                    $tiaojian[] = ['xitong', '=', $xitong];
                 }
             }
 
