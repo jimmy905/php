@@ -1131,6 +1131,19 @@ class Tool
             $tiaojian = [];
 
 
+            $biaoshi = $request->param('biaoshi');
+            if ($biaoshi) {
+                if ($biaoshi == 'all') {
+                    // $tiaojian[] = ['isdel', '=', 0];
+                } else {
+                    $tiaojian[] = ['biaoshi', '=', $biaoshi];
+                }
+            }
+
+
+
+
+
             if ($jueseid) {
 
                 // 查询角色
