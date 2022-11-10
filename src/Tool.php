@@ -1136,6 +1136,7 @@ class Tool
                 if ($biaoshi == 'all') {
                     // $tiaojian[] = ['isdel', '=', 0];
                 } else {
+
                     $tiaojian[] = ['biaoshi', '=', $biaoshi];
                 }
             }
