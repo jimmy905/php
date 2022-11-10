@@ -1132,15 +1132,6 @@ class Tool
 
 
             $xitong = $request->param('xitong');
-            if ($xitong) {
-                if ($xitong == 'all') {
-                    // $tiaojian[] = ['isdel', '=', 0];
-                } else {
-
-                    $tiaojian[] = ['xitong', '=', $xitong];
-                }
-            }
-
 
 
 
@@ -1175,7 +1166,21 @@ class Tool
             $tiaojian1 = [];
 
             if (isset($biaoshi) && $biaoshi) {
+
+
+
+
                 $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            }
+
+
+            if ($xitong) {
+                if ($xitong == 'all') {
+                    // $tiaojian[] = ['isdel', '=', 0];
+                } else {
+
+                    $tiaojian1[] = ['xitong', '=', $xitong];
+                }
             }
 
             $navs = Tool::getDigui('yuanhou_navhou', $tiaojian1, 'paixu desc');
