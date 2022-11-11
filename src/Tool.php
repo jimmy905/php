@@ -765,7 +765,7 @@ class Tool
     static function getJsonZhuanArray()
     {
 
-        return ["图片", "列表值", "附件", "约束选择框", "地区"];
+        return ["图片", "列表值", "附件", "约束选择框", "地区", "多选", "多选联表"];
     }
 
 
