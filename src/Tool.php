@@ -1720,6 +1720,17 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(500)  " . $zifu;
 
                     Db::execute($sql);
+                } else if ($lx == '多选联表') {
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+
+
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(500)  " . $zifu;
+
+                    Db::execute($sql);
                 } else if ($lx == '图片') {
                     $zifu = '';
 
