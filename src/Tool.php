@@ -1177,6 +1177,8 @@ class Tool
             if ($xitong) {
                 if ($xitong == 'all') {
                     // $tiaojian[] = ['isdel', '=', 0];
+                } else if ($xitong == 'mb') {
+                    $tiaojian1[] = ['xitong', '=', null];
                 } else {
 
                     $tiaojian1[] = ['xitong', '=', $xitong];
