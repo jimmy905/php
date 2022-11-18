@@ -1569,6 +1569,8 @@ class Tool
 
                     if ($r[$ziduan]) {
                         $r[$ziduan] = json_decode($r[$ziduan], true);
+                    } else {
+                        $r[$ziduan] = [];
                     }
                 }
 
@@ -1869,9 +1871,9 @@ class Tool
             }
 
 
-            if (isset($data['xuanxiang'])) {
-                $data['xuanxiang'] = json_encode($data['xuanxiang']);
-            }
+            // if (isset($data['xuanxiang'])) {
+            //     $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            // }
 
 
 
@@ -1894,9 +1896,9 @@ class Tool
                 $data['pics'] = json_encode($pics);
             }
 
-            if (isset($data['xuanxiang'])) {
-                $data['xuanxiang'] = json_encode($data['xuanxiang']);
-            }
+            // if (isset($data['xuanxiang'])) {
+            //     $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            // }
 
             $jsonshuzu = self::getJsonZhuanArray();
 
