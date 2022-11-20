@@ -1641,7 +1641,7 @@ class Tool
 
             if (isset($data['moren'])) {
                 $moren = $data['moren'];
-                if ($moren == '') {
+                if ($moren === '') {
                     $moren = '';
                 }
             }
@@ -1692,7 +1692,16 @@ class Tool
                     $zifu = '';
 
                     if ($moren) {
+
+
+
                         $zifu = "DEFAULT '" . $moren . "'";
+                    } else {
+
+
+                        if ($moren == 0) {
+                            $zifu = "DEFAULT '" . $moren . "'";
+                        }
                     }
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11)  " . $zifu;
                     Db::execute($sql);
