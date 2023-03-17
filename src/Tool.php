@@ -1916,9 +1916,12 @@ class Tool
             }
 
 
-            // if (isset($data['xuanxiang'])) {
-            //     $data['xuanxiang'] = json_encode($data['xuanxiang']);
-            // }
+            if (isset($data['xuanxiang'])) {
+                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            }
+
+
+
 
 
 
@@ -1968,6 +1971,9 @@ class Tool
             }
 
 
+            if (isset($data['xuanxiang'])) {
+                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+            }
 
 
             $up = Db::name($biao)->where('id', $id)->update($data);
