@@ -1568,6 +1568,12 @@ class Tool
                 'var_page' => $page,
             ]);
             $list = $shuju->items();
+
+            foreach ($list as $k => $v) {
+                $list[$k]['xuanxiang'] = json_decode($v['xuanxiang'], true);
+            }
+
+
             $fenset = [
                 'page' => $shuju->currentPage(),
                 'pagenum' => $shuju->listRows(),
@@ -2215,6 +2221,10 @@ class Tool
 
 
             return json(fan_ok([
+
+
+
+
                 'msg' => '查询成功', 'list' => $ziduan, 'navhous' => $nav1, 'sous' => $sous,
 
                 'juese' => $juese,
