@@ -1917,7 +1917,13 @@ class Tool
 
 
             if (isset($data['xuanxiang'])) {
-                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+                if (is_array($data['xuanxiang'])) {
+                    $data['xuanxiang'] = json_encode($data['xuanxiang']);
+                } else {
+                }
+
+
+                // $data['xuanxiang'] = json_encode($data['xuanxiang']);
             }
 
 
@@ -1972,7 +1978,13 @@ class Tool
 
 
             if (isset($data['xuanxiang'])) {
-                $data['xuanxiang'] = json_encode($data['xuanxiang']);
+                if (is_array($data['xuanxiang'])) {
+                    $data['xuanxiang'] = json_encode($data['xuanxiang']);
+                } else {
+                }
+
+
+                // $data['xuanxiang'] = json_encode($data['xuanxiang']);
             }
 
 
