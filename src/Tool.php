@@ -1455,13 +1455,30 @@ class Tool
             $jueseid = $request->param('jueseid') ?: '';
 
 
+            // huo
 
             $admin = self::getAdmin($request);
 
 
 
+            $tiaojian = [];
+            $xitong = $request->param('xitong') ?: '';
+            if ($xitong) {
+                $tiaojian[] = ['xitong', '=', $xitong];
+            }
+
+
+
+
+
+
+
             // var_dump('121212');
-            $jieguo =  self::getMenuAll1($quanxian, $admin, $jueseid);
+            $jieguo =  self::getMenuAll2($quanxian, $admin, $jueseid, $tiaojian);
+
+
+
+
             return json(fan_ok(['msg' => '查询成功', 'list' => $jieguo]));
         } else if ($lx == 'getlie') {
             $biao = $request->param('biao');
@@ -2401,6 +2418,85 @@ class Tool
 
 
 
+
+    static public function getMenuAll2($quanxian = '', $admin = null, $jueseid = '', $tiaojian = [])
+    {
+        // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
+
+        // $tiaojian = [];
+
+
+        if ($quanxian == 1) {
+
+            // 查询角色
+            $juese = Db::table('yuanhou_juese')->where([
+                ['id', '=', $jueseid],
+                ['isdel', '=', 0],
+            ])->find();
+
+
+            $biaoshi  = $juese['biaoshi'];
+
+            // $tiaojian[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
+            $tiaojian[] = ['xianshi', '=', 1];
+
+            $danyequanxians = $juese['danyequanxians'];
+
+
+
+            $danyequanxians = json_decode($danyequanxians, true);
+        }
+
+
+        $ls = Db::table('yuanhou_navhou')->where([
+            ['isdel', '=', 0],
+        ])->where($tiaojian)->order('paixu desc')->select()->toArray();
+
+
+
+
+
+
+        foreach ($ls as $k => $v) {
+
+            $id = $v['id'];
+
+
+            // var_dump($v);
+
+
+
+
+            if ($quanxian == 1 && $danyequanxians) {
+
+
+
+
+
+                foreach ($danyequanxians as $k1 => $v1) {
+                    if ($v1['id'] == $id) {
+
+                        $ls[$k]['zeng'] = $v1['zeng'];
+                        $ls[$k]['shan'] = $v1['shan'];
+                        $ls[$k]['gai'] = $v1['gai'];
+                        $ls[$k]['cha'] = $v1['cha'];
+
+
+                        // $v['shang'] = $v1['shang'];
+                    }
+                }
+            }
+
+
+
+
+
+
+            $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
+        }
+
+        return self::makeArr($ls);
+    }
 
 
     static public function getMenuAll1($quanxian = '', $admin = null, $jueseid = '')
