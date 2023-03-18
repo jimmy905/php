@@ -2192,6 +2192,14 @@ class Tool
             $tiaojian = [];
             $admintoken = $request->param('admintoken');
 
+            $xitong = $request->param('xitong');
+
+
+
+
+
+
+
             // var_dump($admintoken);
 
             // 查询admin
@@ -2220,10 +2228,19 @@ class Tool
                 }
             }
 
+
+            $ziduantiaojian = [];
+
+            if ($xitong) {
+                $ziduantiaojian[] = ['xitong', '=', $xitong];
+            }
+
+
+
             // 获取字段
             $ziduan = Db::table('yuanhou_ziduan')->where([
                 ['isdel', '=', 0],
-            ])->select()->toArray();
+            ])->where($ziduantiaojian)->select()->toArray();
 
 
 
@@ -2233,6 +2250,12 @@ class Tool
             if (isset($biaoshi) && $biaoshi) {
                 $tiaojian1[] = ['juesexuan', 'like', '%' . $biaoshi . '%'];
             }
+
+
+            if ($xitong) {
+                $tiaojian1[] = ['xitong', '=', $xitong];
+            }
+
 
 
             $nav1  = Tool::getDigui('yuanhou_navhou', $tiaojian1, 'paixu desc');
@@ -2249,10 +2272,17 @@ class Tool
             //     ['isdel', '=', 0],
             //     ['pId', '>', 0],
             // ])->field('id,biao,name')->select()->toArray();
+
+
+            $houtiaojians = [];
+            if ($xitong) {
+                $houtiaojians[] = ['xitong', '=', $xitong];
+            }
+
             $navhoubiaos = Db::table('yuanhou_navhou')->where([
                 ['isdel', '=', 0],
                 ['pId', '>', 0],
-            ])->select()->toArray();
+            ])->where($houtiaojians)->select()->toArray();
 
 
             return json(fan_ok([
