@@ -2704,6 +2704,25 @@ class Tool
 
 
 
+    // 根据id搜索递归数组
+    static function search_array($arr, $id)
+    {
+        foreach ($arr as $item) {
+            if ($item['id'] == $id) {
+                return $item;
+            }
+            if (isset($item['children']) && is_array($item['children'])) {
+                $result = self::search_array($item['children'], $id);
+                if ($result !== null) {
+                    return $result;
+                }
+            }
+        }
+        return null;
+    }
+
+
+
     // 星期几
     static function getWeek($date)
     {
