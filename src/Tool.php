@@ -2384,6 +2384,7 @@ class Tool
 
             // $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
             $ls[$k]['label'] = $v['name'];
+            $ls[$k]['text'] = $v['name'];
             $ls[$k]['value'] = $v['id'];
         }
 
