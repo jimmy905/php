@@ -328,6 +328,25 @@ class Tool
     }
 
 
+    // 统计总数
+
+    static function dbsum($biao, $tiaojian = [], $ziduan)
+    {
+
+        $zongshu = Db::name($biao)->where($tiaojian)->sum($ziduan);
+
+        return $zongshu;
+    }
+
+
+    // 统计数量
+    static function dbcount($biao, $tiaojian = [])
+    {
+
+        $zongshu = Db::name($biao)->where($tiaojian)->count();
+
+        return $zongshu;
+    }
 
 
 
