@@ -2743,6 +2743,33 @@ class Tool
 
 
 
+
+
+    // 变换函数索引
+
+    static function changeArrSuoyin($arr, $key, $lx = 'one')
+    {
+
+        $newarr = [];
+        foreach ($arr as $k => $v) {
+
+
+            if ($lx == 'one') {
+
+
+                $newarr[$v[$key]] = $v;
+            } else if ($lx == 'duo') {
+                $newarr[$v[$key]][] = $v;
+            }
+
+            // var_dump(v);            
+        }
+
+        return $newarr;
+    }
+
+
+
     // 星期几
     static function getWeek($date)
     {
