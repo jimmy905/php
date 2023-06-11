@@ -209,7 +209,11 @@ class Tool
     static function getOrderId()
     {
 
-        return date('YmdHis') . rand(100000, 999999);
+        $dateTime = date('YmdHis');
+        $randomNum = rand(100000, 999999);
+        $fixedRandomNum = str_pad($randomNum, 6, '0', STR_PAD_LEFT); // 使用str_pad()函数填充随机数，使其恒定为6位
+        $uniqueOrderNumber = $dateTime . $fixedRandomNum;
+        return $uniqueOrderNumber;
     }
 
     // 获取现在的时间datetime
