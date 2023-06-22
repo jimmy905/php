@@ -1789,6 +1789,14 @@ class Tool
                     }
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11)  " . $zifu;
                     Db::execute($sql);
+                } else if ($lx == '选择框高') {
+                    $zifu = '';
+
+                    if ($moren) {
+                        $zifu = "DEFAULT '" . $moren . "'";
+                    }
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11)  " . $zifu;
+                    Db::execute($sql);
                 } else if ($lx == '开关') {
                     $zifu = '';
 
