@@ -2397,7 +2397,8 @@ class Tool
 
 
 
-    static public function getMenuAll($biao = 'yuanhou_lanmu', $tiaojian = null)
+
+    static public function getMenuAll($biao = 'yuanhou_lanmu', $tiaojian = null, $biao1 = null, $fn = null)
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
@@ -2417,14 +2418,33 @@ class Tool
             $ls[$k]['label'] = $v['name'];
             $ls[$k]['text'] = $v['name'];
             $ls[$k]['value'] = $v['id'];
+
+            if ($biao1) {
+
+
+                $ids11 = ',' . $v['id'] . ',';
+
+
+                $ls[$k]['num'] = $num = Db::table($biao1)->where([
+                    ['isdel', '=', 0],
+                    ['quyuidstr', 'like', '%' . $ids11 . '%'],
+                ])->count();
+            }
+        }
+
+        $jieguo = self::makeArr($ls);
+
+
+
+
+        if ($fn) {
+            return    $fn($jieguo);
         }
 
 
 
 
-
-
-        return self::makeArr($ls);
+        return $jieguo;
     }
 
     // 递归处理
