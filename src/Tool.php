@@ -1914,7 +1914,7 @@ class Tool
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " date ";
                     Db::execute($sql);
                 } else if ($lx == '日期年') {
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " YEAR ";
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255) DEFAULT " . "'" . $moren . "'";
                     Db::execute($sql);
                 } else if ($lx == '日期时间') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " datetime ";
