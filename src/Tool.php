@@ -1913,6 +1913,9 @@ class Tool
                 } else if ($lx == '日期') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " date ";
                     Db::execute($sql);
+                } else if ($lx == '日期年') {
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " YEAR ";
+                    Db::execute($sql);
                 } else if ($lx == '日期时间') {
                     $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " datetime ";
                     Db::execute($sql);
