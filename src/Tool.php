@@ -315,6 +315,15 @@ class Tool
 
         return $ls;
     }
+    // 查询多条数据
+    static function cha1($biao, $tiaojian = [])
+    {
+
+
+        $ls = Db::table($biao)->where($tiaojian)->select()->toArray();
+
+        return $ls;
+    }
 
 
 
@@ -327,6 +336,15 @@ class Tool
         $r = Db::table($biao)->where([
             ['isdel', '=', 0],
         ])->where($tiaojian)->find();
+
+        return $r;
+    }
+    // 查询单条数据
+    static function find1($biao, $tiaojian = [])
+    {
+
+
+        $r = Db::table($biao)->where($tiaojian)->find();
 
         return $r;
     }
