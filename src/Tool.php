@@ -6,6 +6,9 @@ use think\facade\Db;
 use think\Request;
 use think\facade\Cache;
 
+
+
+
 class Tool
 {
     public function index()
@@ -2445,11 +2448,13 @@ class Tool
 
                 $ids11 = ',' . $v['id'] . ',';
 
-
-                $ls[$k]['num'] = $num = Db::table($biao1)->where([
+                $num = Db::table($biao1)->where([
                     ['isdel', '=', 0],
                     ['quyuidstr', 'like', '%' . $ids11 . '%'],
                 ])->count();
+                $ls[$k]['num'] = $num;
+
+                $ls[$k]['name1'] = $v['name'] . '(' . $num . ')';
             }
         }
 
