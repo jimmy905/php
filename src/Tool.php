@@ -855,6 +855,9 @@ class Tool
         use think\facade\Db;
         use think\Request;
         use \yuanhou\composer\Tool;
+        use think\facade\Env;
+        use PhpOffice\PhpSpreadsheet\Spreadsheet;
+        use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
         class ' . $classname . ' extends BaseController
         {
         
