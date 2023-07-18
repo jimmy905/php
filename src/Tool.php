@@ -2803,9 +2803,25 @@ class Tool
     }
 
 
+    // 根据id搜索递归数组
+    static function diguiFind($arr, $key, $zhi)
+    {
+        foreach ($arr as $item) {
+            if ($item[$key] == $zhi) {
+                return $item;
+            }
+            if (isset($item['children']) && is_array($item['children'])) {
+                $result = self::diguiFind($item['children'], $key, $zhi);
+                if ($result !== null) {
+                    return $result;
+                }
+            }
+        }
 
 
 
+        return null;
+    }
     // 变换函数索引
 
     static function changeArrSuoyin($arr, $key, $lx = 'one')
