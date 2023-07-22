@@ -2847,6 +2847,57 @@ class Tool
 
 
 
+    // 获取企业微信token
+    static function getWeixinAccessToken()
+    {
+
+        // 首先读取token文件
+        $token = file_get_contents('access_token.json');
+
+        // var_dump($token);
+        // 将字符串转换成数组
+        $token = json_decode($token, true);
+
+        // var_dump($token);
+        // 获取时间戳
+        $shijianchuo = $token['shijianchuo'];
+
+        // 当前时间戳和上面时间戳对比是否超过7000秒
+        if (time() - $shijianchuo > 7000) {
+            // 超过7000秒，重新获取token
+            // 重新获token
+
+
+
+
+            $corpid = 'ww5cc124ac9fcd788f';
+            $corpsecret = '0camvKsWJH0ioeMDltZIRseC6so5dNUSDK8z0_IDrGY';
+
+            $wangzhi = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=" . $corpid . "&corpsecret=" . $corpsecret;
+
+
+
+            $res = Tool::curlGet($wangzhi);
+            // var_dump($res);
+            // 将字符串转换成数组
+            $res = json_decode($res, true);
+
+            $res['shijianchuo'] = time();
+            $res['intime'] = xianzai();
+            // var_dump($res);
+
+
+            // 将数组存储到文件
+            file_put_contents('access_token.json', json_encode($res));
+            return $res['access_token'];
+        } else {
+            return $token['access_token'];
+        }
+    }
+
+
+
+
     // 星期几
     static function getWeek($date)
     {
