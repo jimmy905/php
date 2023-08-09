@@ -1819,7 +1819,7 @@ class Tool
                     if ($moren) {
                         $zifu = "DEFAULT '" . $moren . "'";
                     }
-                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " int(11)  " . $zifu;
+                    $sql = "ALTER TABLE " . 'yuanhou_' . $biao1 . " ADD " . $ziduan . " varchar(255)  " . $zifu;
                     Db::execute($sql);
                 } else if ($lx == '开关') {
                     $zifu = '';
