@@ -1392,7 +1392,7 @@ class Tool
 
 
 
-            $in = Db::name($biao)->insert($data);
+            $in = Db::name($biao)->insertGetId($data);
 
             if ($in) {
 
@@ -1462,7 +1462,7 @@ class Tool
                 // +++
 
 
-                return json(fan_ok(['msg' => '添加成功']));
+                return json(fan_ok(['msg' => '添加成功', 'id' => $in]));
             } else {
                 return json(fan_fail(['msg' => '添加失败']));
             }
