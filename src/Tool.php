@@ -355,7 +355,7 @@ class Tool
 
     // 统计总数
 
-    static function dbsum($biao, $tiaojian = [], $ziduan)
+    static function dbsum($biao, $tiaojian, $ziduan)
     {
 
         $zongshu = Db::name($biao)->where($tiaojian)->sum($ziduan);
@@ -450,7 +450,7 @@ class Tool
 
 
     // 获取日期
-    static  function riqi($date = null, $tian)
+    static  function riqi($date, $tian)
     {
         if ($date) {
 
