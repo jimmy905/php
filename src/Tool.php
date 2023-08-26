@@ -1474,10 +1474,15 @@ class Tool
             $data['uptime'] = xianzai();
             $id = $request->param('id');
 
-            $juesexuan = json_encode($data['juesexuan']);
+            if (isset($data['juesexuan'])) {
+                $juesexuan = json_encode($data['juesexuan']);
+                $data['juesexuan'] = $juesexuan;
+            } else {
+                $data['juesexuan'] = [];
+            }
 
 
-            $data['juesexuan'] = $juesexuan;
+
 
 
 
@@ -1510,6 +1515,21 @@ class Tool
 
             $tiaojian = [];
             $xitong = $request->param('xitong') ?: '';
+
+            $xianshi = $request->param('xianshi') ?: '';
+
+            // var_dump($xianshi);
+
+            if ($xianshi == '全部') {
+            } else {
+                $tiaojian[] = ['xianshi', '=', $xianshi];
+            }
+
+
+
+
+
+
             if ($xitong) {
                 $tiaojian[] = ['xitong', '=', $xitong];
             }
@@ -1634,7 +1654,12 @@ class Tool
             $list = $shuju->items();
 
             foreach ($list as $k => $v) {
-                $list[$k]['xuanxiang'] = json_decode($v['xuanxiang'], true);
+
+                if ($v['xuanxiang']) {
+                    $list[$k]['xuanxiang'] = json_decode($v['xuanxiang'], true);
+                } else {
+                    $list[$k]['xuanxiang'] = [];
+                }
             }
 
 
