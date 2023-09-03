@@ -999,6 +999,9 @@ class Tool
                         return json(fan_fail(["msg" => "删除失败"]));
                     }
                 } else if ($lx == "add") {
+
+                    $admin = Tool::getAdmin($request);
+
         
                     // 新增
                     $data = $request->param("data");
@@ -1043,6 +1046,17 @@ class Tool
         
                     $data["intime"] = xianzai();
                     $data["uptime"] = xianzai();
+
+
+                    if ($admin) {
+
+                        $data["adminid"] = $admin["id"];
+                        if ($admin["qiyeid"]) {
+                            $data["qiyeid"] = $admin["qiyeid"];
+                        }
+
+                    }
+        
         
                     // 这里对图片进行处理
                     if (isset($data["pics"])) {
