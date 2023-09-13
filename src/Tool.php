@@ -2569,7 +2569,9 @@ class Tool
 
 
 
-    static public function getMenuAll2($quanxian = '', $admin = null, $jueseid = '', $tiaojian = [])
+
+
+    static public function getMenuAll2($quanxian = '', $admin = null, $jueseid = '', $tiaojian = [], $topid = 0)
     {
         // $res = self::where('hid', 0)->field('id,pid,url,icon,title,sort,group')->order('pid', 'asc')->select()->toArray();
 
@@ -2598,12 +2600,18 @@ class Tool
         }
 
 
+
+        // var_dump($tiaojian);
+
+
         $ls = Db::table('yuanhou_navhou')->where([
             ['isdel', '=', 0],
         ])->where($tiaojian)->order('paixu desc')->select()->toArray();
 
 
 
+
+        // var_dump($tiaojian);
 
 
 
@@ -2645,7 +2653,7 @@ class Tool
             $ls[$k]['label'] = $v['name'] . ':' . $v['id'];
         }
 
-        return self::makeArr($ls);
+        return self::makeArr($ls, $topid);
     }
 
 
